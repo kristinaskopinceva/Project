@@ -24,11 +24,10 @@ ALTER TABLE office ADD FOREIGN KEY (org_id) REFERENCES organization (id);
 
 COMMENT ON TABLE office IS 'Офис';
 
-
 CREATE TABLE IF NOT EXISTS user (
 id            INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 version       INTEGER NOT NULL,
-office_id      INTEGER NOT NULL ,
+office_id     INTEGER NOT NULL ,
 first_name    VARCHAR(50) NOT NULL ,
 second_name   VARCHAR(50) NOT NULL,
 middle_name   VARCHAR(50),
