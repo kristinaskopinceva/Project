@@ -12,7 +12,7 @@ is_active    BOOLEAN NOT NULL);
 COMMENT ON TABLE organization IS 'Организация';
 
 CREATE TABLE IF NOT EXISTS office (
-id           INT NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+id           INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT ,
 version      INTEGER NOT NULL,
 org_id       INTEGER NOT NULL ,
 name         VARCHAR(50) NOT NULL,

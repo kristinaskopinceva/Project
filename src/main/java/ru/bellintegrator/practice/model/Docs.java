@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.model;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity (name = "docs")
 
@@ -9,6 +10,7 @@ public class Docs {
     private Integer code;
     @Version
     private Integer version;
+    @Column(nullable = false,length = 150)
     private String name;
 
     public Docs(){ }

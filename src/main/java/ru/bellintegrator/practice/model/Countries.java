@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.model;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ public class Countries{
     private Integer code;
     @Version
     private Integer version;
+    @Column(nullable = false,length = 50)
     private String name;
 
     public Countries(){}
