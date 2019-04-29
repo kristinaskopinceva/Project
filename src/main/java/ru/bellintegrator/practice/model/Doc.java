@@ -4,18 +4,19 @@ import javax.validation.constraints.NotNull;
 
 @Entity (name = "docs")
 
-public class Docs {
+public class Doc {
 
     @Id
-    private Integer code;
+    private Integer id;
     @Version
     private Integer version;
+    private Integer code;
     @Column(nullable = false,length = 150)
     private String name;
 
-    public Docs(){ }
+    public Doc(){ }
 
-    public Docs(Integer code, String name){
+    public Doc(Integer code, String name){
         this.code = code;
         this. name = name;
     }

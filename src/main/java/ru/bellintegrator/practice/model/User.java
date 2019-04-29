@@ -24,7 +24,7 @@ public class User {
     private String phone;
     @ManyToOne(fetch = FetchType.LAZY)
       @JoinColumn(name = "doc_code")
-        private Docs docs;
+        private Docs doc;
     @Column(name = "doc_number", length = 30)
        private String docsNumber;
     @Column(name = "doc_date")
@@ -35,7 +35,7 @@ public class User {
     @Column(name = "is_identified",nullable = false)
     private Boolean isIdentified;
     public User(){ }
-    public User(Office office1, String firstName, String secondName, String middleName, String position, String phone, Docs docs1,
+    public User(Office office1, String firstName, String secondName, String middleName, String position, String phone, Docs doc1,
                 Countries countries1, Boolean isIdentified1) {
         office=office1;
         this.firstName = firstName;
@@ -43,7 +43,7 @@ public class User {
         this.middleName = middleName;
         this.position = position;
         this.phone = phone;
-        docs = docs1;
+        doc = doc1;
         countries = countries1;
         isIdentified = isIdentified1;}
 
@@ -103,12 +103,12 @@ public class User {
         this.phone = phone;
     }
 
-    public Docs getDocs() {
-        return docs;
+    public Docs getDoc() {
+        return doc;
     }
 
-    public void setDocs(Docs docs1) {
-        docs = docs1;
+    public void setDoc(Docs doc1) {
+        doc = doc1;
     }
 
     public String getDocsNumber() {
