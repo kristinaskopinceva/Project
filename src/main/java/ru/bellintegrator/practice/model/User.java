@@ -1,17 +1,30 @@
 package ru.bellintegrator.practice.model;
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
+import java.util.List;
 
 @Entity(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private List<Doc> docs;
     private Integer id;
     @Version
-    private Integer version = 0;
+    private Integer version;
     @ManyToOne(fetch = FetchType.LAZY)
-      @JoinColumn(name = "office_id")
-        private Office office;
+    @JoinColumn(name = "office_id")
+    private Office office;
     @Column(name = "first_name", nullable = false,length = 50)
     private String firstName;
     @Column(name = "second_name",nullable = false,length = 50)
@@ -23,36 +36,24 @@ public class User {
     @Column(nullable = false,length = 50)
     private String phone;
     @ManyToOne(fetch = FetchType.LAZY)
-      @JoinColumn(name = "doc_code")
-        private Docs doc;
-    @Column(name = "doc_number", length = 30)
-       private String docsNumber;
-    @Column(name = "doc_date")
-    private Date docDate;
-    @ManyToOne(fetch = FetchType.LAZY)
-      @JoinColumn(name = "citizenship_code")
-        private Countries countries;
+    @JoinColumn(name = "citizenship_code")
+    private Country countries;
     @Column(name = "is_identified",nullable = false)
     private Boolean isIdentified;
     public User(){ }
-    public User(Office office1, String firstName, String secondName, String middleName, String position, String phone, Docs doc1,
-                Countries countries1, Boolean isIdentified1) {
-        office=office1;
+    public User(Office officeId, String firstName, String secondName, String middleName, String position, String phone,
+                Country countries1, Boolean isIdentified1) {
+        office=officeId;
         this.firstName = firstName;
         this.secondName = secondName;
         this.middleName = middleName;
         this.position = position;
         this.phone = phone;
-        doc = doc1;
         countries = countries1;
         isIdentified = isIdentified1;}
 
         public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Office getOffice() {
@@ -103,35 +104,11 @@ public class User {
         this.phone = phone;
     }
 
-    public Docs getDoc() {
-        return doc;
-    }
-
-    public void setDoc(Docs doc1) {
-        doc = doc1;
-    }
-
-    public String getDocsNumber() {
-        return docsNumber;
-    }
-
-    public void setDocsNumber(String docsNumber) {
-        this.docsNumber = docsNumber;
-    }
-
-    public Date getDocDate() {
-        return docDate;
-    }
-
-    public void setDocDate(Date docDate) {
-        this.docDate = docDate;
-    }
-
-    public Countries getCountries() {
+    public Country getCountries() {
         return countries;
     }
 
-    public void setCountries(Countries countries1) {
+    public void setCountries(Country countries1) {
         countries = countries1;
     }
 
