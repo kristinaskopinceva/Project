@@ -61,7 +61,7 @@ CREATE INDEX IX_doc_user_id ON doc (user_id);
 ALTER TABLE doc ADD FOREIGN KEY (user_id) REFERENCES user (id);
 CREATE INDEX IX_doc_doc_code ON doc (doc_code);
 ALTER TABLE doc ADD FOREIGN KEY (doc_code) REFERENCES doc_type (doc_code);
-COMMENT ON TABLE doc IS 'Документы сотрудников';
+COMMENT ON TABLE doc IS 'Документы сотрудников орг';
 
 CREATE TABLE IF NOT EXISTS country(
 id           INTEGER PRIMARY KEY NOT NULL,
