@@ -1,4 +1,4 @@
 package ru.bellintegrator.practice.dao.user;
 
-public class UserDAOImpl {
+public class UserDaoImpl {
 }

@@ -1,17 +1,13 @@
 package ru.bellintegrator.practice.controller;
-import com.sun.xml.internal.ws.handler.HandlerException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bellintegrator.practice.service.OrganizationService;
-import ru.bellintegrator.practice.view.Organization.FilterView;
+import ru.bellintegrator.practice.view.Organization.OrgFilterView;
 import ru.bellintegrator.practice.view.Organization.OrganizationView;
 
 import java.util.List;
@@ -35,7 +31,7 @@ public class OrganizationController {
     }
     @ApiOperation(value = "Получить список орг по фильтру", httpMethod = "POST")
     @RequestMapping(value = "/list")
-    public List<OrganizationView> getOrgByFilter (@RequestBody OrganizationFilterView view)  {
+    public List<OrganizationView> getOrgByFilter (@RequestBody OrgFilterView view)  {
         return organizationService.getByFilter(view.getInn(),view.getName(),view.getIsActive());}
 
 

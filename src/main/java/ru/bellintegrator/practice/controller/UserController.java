@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.bellintegrator.practice.service.UserService;
+import ru.bellintegrator.practice.service.UserServiceImpl;
+import ru.bellintegrator.practice.view.user.UserFilterView;
+import ru.bellintegrator.practice.view.user.UserView;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -24,7 +30,7 @@ public class UserController {
         }
         @ApiOperation(value = "Получить список сотрудников по фильтру", httpMethod = "POST")
         @PostMapping("/list")
-        public List<UserView> getList( @RequestBody UserFilterView view)  {
+        public List<UserView> getList(@RequestBody UserFilterView view)  {
             return userService.getByFilter(view);
         }
         @ApiOperation(value = "Получить сотрудников по id", httpMethod = "GET")

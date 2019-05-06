@@ -1,4 +1,5 @@
 package ru.bellintegrator.practice.model;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,41 +19,45 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private List<Doc> docs;
+    private List<Doc> doc;
     private Integer id;
     @Version
     private Integer version;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "office_id")
     private Office office;
-    @Column(name = "first_name", nullable = false,length = 50)
+    @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
-    @Column(name = "second_name",nullable = false,length = 50)
+    @Column(name = "second_name", nullable = false, length = 50)
     private String secondName;
-    @Column(name = "middle_name",length = 50)
+    @Column(name = "middle_name", length = 50)
     private String middleName;
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false, length = 50)
     private String position;
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false, length = 50)
     private String phone;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "citizenship_code")
-    private Country countries;
-    @Column(name = "is_identified",nullable = false)
+    @JoinColumn(name = "citizenship_id")
+    private Country country;
+    @Column(name = "is_identified", nullable = false)
     private Boolean isIdentified;
-    public User(){ }
-    public User(Office officeId, String firstName, String secondName, String middleName, String position, String phone,
-                Country countries1, Boolean isIdentified1) {
-        office=officeId;
+
+    public User() {
+    }
+
+    public User(Office officeId, String firstName, String secondName, String middleName, String position, String phone, Country countryId
+            , Boolean isIdentified1) {
+        office = officeId;
         this.firstName = firstName;
         this.secondName = secondName;
         this.middleName = middleName;
         this.position = position;
         this.phone = phone;
-        countries = countries1;
-        isIdentified = isIdentified1;}
+        country = countryId;
+        isIdentified = isIdentified1;
+    }
 
-        public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -104,12 +109,12 @@ public class User {
         this.phone = phone;
     }
 
-    public Country getCountries() {
-        return countries;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountries(Country countries1) {
-        countries = countries1;
+    public void setCountry(Country countries1) {
+        country = countries1;
     }
 
     public Boolean getIdentified() {

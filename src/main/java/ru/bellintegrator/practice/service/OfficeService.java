@@ -1,10 +1,9 @@
 package ru.bellintegrator.practice.service;
 
 import org.springframework.validation.annotation.Validated;
-
 /**
- * Сервис для огр
+ * Сервис для офиса
  */
 @Validated
-public class OrganizationService {
+public class OfficeService {
 }

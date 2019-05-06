@@ -1,17 +1,25 @@
 package ru.bellintegrator.practice.view.Organization;
 
-public class FilterView {
-    public String name;
+import ru.bellintegrator.practice.model.Organization;
+
+/**
+ * класс организации фильтр in
+ * десериализация из json в java
+ */
+public class OrgFilterView {
+    private String name;
     private String inn;
     private Boolean isActive;
 
-    public FilterView() {
+    public OrgFilterView() {
     }
-    public FilterView(String name, String inn, Boolean isActive) {
-        this.name = name;
-        this.inn = inn;
-        this.isActive = isActive;
+
+    public OrgFilterView(Organization organization) {
+        name = organization.getName();
+        inn = organization.getInn();
+        this.isActive = organization.getActive();
     }
+
     public String getName() {
         return name;
     }
