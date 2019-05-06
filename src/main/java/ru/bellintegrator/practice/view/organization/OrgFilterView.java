@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.view.Organization;
+package ru.bellintegrator.practice.view.organization;
 
 import ru.bellintegrator.practice.model.Organization;
 
