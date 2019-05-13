@@ -1,9 +1,7 @@
 package ru.bellintegrator.practice.view.user;
 
 
-import ru.bellintegrator.practice.model.Country;
-import ru.bellintegrator.practice.model.Office;
-import ru.bellintegrator.practice.model.User;
+import java.util.Date;
 
 /**
  * класс сотрудники представление
@@ -13,29 +11,19 @@ import ru.bellintegrator.practice.model.User;
 public class UserView {
 
     private Integer id;
-    private Office office;
+    private Integer officeId;
     private String firstName;
     private String secondName;
     private String middleName;
     private String position;
     private String phone;
-    private Country country;
+    private String docName;
+    private String docNumber;
+    private Date docDate;
+    private Integer countryId;
     private Boolean isIdentified;
 
     public UserView() {
-    }
-
-    public UserView(User user) {
-        id = user.getId();
-        office = user.getOffice();
-        firstName = user.getFirstName();
-        secondName = user.getSecondName();
-        middleName = user.getMiddleName();
-        position = user.getPosition();
-        phone = user.getPhone();
-        country = user.getCountry();
-        isIdentified = user.getIdentified();
-
     }
 
     public Integer getId() {
@@ -46,12 +34,12 @@ public class UserView {
         this.id = id;
     }
 
-    public Office getOffice() {
-        return office;
+    public Integer getOffice() {
+        return officeId;
     }
 
-    public void setOffice(Office office) {
-        this.office = office;
+    public void setOffice(Integer office) {
+        this.officeId = office;
     }
 
     public String getFirstName() {
@@ -94,12 +82,36 @@ public class UserView {
         this.phone = phone;
     }
 
-    public Country getCountry() {
-        return country;
+    public String getDocName() {
+        return docName;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setDocName(String docName) {
+        this.docName = docName;
+    }
+
+    public String getDocNumber() {
+        return docNumber;
+    }
+
+    public void setDocNumber(String docNumber) {
+        this.docNumber = docNumber;
+    }
+
+    public Date getDocDate() {
+        return docDate;
+    }
+
+    public void setDocDate(Date docDate) {
+        this.docDate = docDate;
+    }
+
+    public Integer getCountry() {
+        return countryId;
+    }
+
+    public void setCountry(Integer country) {
+        this.countryId = country;
     }
 
     public Boolean getIdentified() {
@@ -108,13 +120,6 @@ public class UserView {
 
     public void setIdentified(Boolean identified) {
         isIdentified = identified;
-    }
-
-    @Override
-    public String toString() {
-        return "{id: " + id + "; FirstName: " + firstName + "; SecondName: " + secondName + "; middleName: " + middleName +
-                "; position: " + position + "; phone " + phone + "; citizenshipId: " + country
-                + "; isIdentified " + isIdentified + "}";
     }
 
 

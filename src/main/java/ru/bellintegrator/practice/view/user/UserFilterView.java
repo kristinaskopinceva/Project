@@ -18,17 +18,6 @@ public class UserFilterView {
     public UserFilterView() {
     }
 
-    public UserFilterView(User user) {
-        id = user.getId();
-        firstName = user.getFirstName();
-        secondName = user.getSecondName();
-        middleName = user.getMiddleName();
-        position = user.getPosition();
-        citizenshipCode = user.getCountry().getCode();
-
-    }
-
-
     public Integer getId() {
         return id;
     }

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.annotation.Bean;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
 import org.springframework.core.task.TaskExecutor;
@@ -42,7 +43,9 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 @SpringBootApplication
 
-public class Application {
+
+public class
+Application {
 
 
 

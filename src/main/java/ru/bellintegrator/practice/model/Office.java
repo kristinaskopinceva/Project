@@ -31,6 +31,12 @@ public class Office {
     Boolean isActive;
     public Office(){}
 
+    public Office(Organization org, String name, String phone, Boolean isActive) {
+        organization=org;
+        this.name = name;
+        this.phone = phone;
+        this.isActive = isActive;
+    }
     public Office(Organization org, String name,String address, String phone, Boolean isActive) {
         organization=org;
         this.name = name;

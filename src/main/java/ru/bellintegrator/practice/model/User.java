@@ -1,25 +1,11 @@
 package ru.bellintegrator.practice.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-import java.util.List;
+import javax.persistence.*;
 
 @Entity(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_id")
-    private List<Doc> doc;
     private Integer id;
     @Version
     private Integer version;
@@ -39,22 +25,34 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_id")
     private Country country;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Doc doc;
     @Column(name = "is_identified", nullable = false)
     private Boolean isIdentified;
 
     public User() {
     }
 
-    public User(Office officeId, String firstName, String secondName, String middleName, String position, String phone, Country countryId
+    public User(Integer id, Office officeId, String firstName, String lastName, String middleName,
+                String position, String phone, Doc doc, Country countryId
             , Boolean isIdentified1) {
         office = officeId;
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.secondName = lastName;
         this.middleName = middleName;
         this.position = position;
         this.phone = phone;
         country = countryId;
         isIdentified = isIdentified1;
+    }
+
+    public User(Office officeId, String firstName, String lastName, String middleName, String position, Country countryId) {
+        office = officeId;
+        this.firstName = firstName;
+        this.secondName = lastName;
+        this.middleName = middleName;
+        this.position = position;
+        country = countryId;
     }
 
     public Integer getId() {
@@ -115,6 +113,14 @@ public class User {
 
     public void setCountry(Country countries1) {
         country = countries1;
+    }
+
+    public Doc getDoc() {
+        return doc;
+    }
+
+    public void setDoc(Doc doc) {
+        this.doc = doc;
     }
 
     public Boolean getIdentified() {

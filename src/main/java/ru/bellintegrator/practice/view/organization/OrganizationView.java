@@ -1,6 +1,4 @@
-package ru.bellintegrator.practice.view.Organization;
-
-import ru.bellintegrator.practice.model.Organization;
+package ru.bellintegrator.practice.view.organization;
 
 public class OrganizationView {
     private Integer id;
@@ -14,17 +12,6 @@ public class OrganizationView {
 
     public OrganizationView() {
 
-    }
-
-    public OrganizationView(Organization organization) {
-        id = organization.getId();
-        name = organization.getName();
-        fullName = organization.getFullName();
-        inn = organization.getInn();
-        kpp = organization.getKpp();
-        address = organization.getAddress();
-        phone = organization.getPhone();
-        isActive = organization.getActive();
     }
 
     public Integer getId() {
@@ -91,10 +78,5 @@ public class OrganizationView {
         isActive = active;
     }
 
-    @Override
-    public String toString() {
-        return "{id:" + id + ";name:" + name + ";fullName:" + fullName + ";inn:" + inn + ";kpp:" + kpp +
-                ";address" + address + ";phone:" + phone + ";isActive : " + isActive + "}";
-    }
 
 }

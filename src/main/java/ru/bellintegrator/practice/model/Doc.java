@@ -1,6 +1,5 @@
 package ru.bellintegrator.practice.model;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity (name = "docs")
@@ -14,7 +13,7 @@ public class Doc {
     private Integer version;
     @Column(name = "doc_code",nullable = false)
     private Integer docCode;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     @Column(name = "doc_number",nullable = false,length = 30)

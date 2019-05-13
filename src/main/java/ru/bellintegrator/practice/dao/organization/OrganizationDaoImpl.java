@@ -1,4 +1,7 @@
 package ru.bellintegrator.practice.dao.organization;
 
-public class OrganizationDaoImpl {
+import org.springframework.stereotype.Component;
+
+@Component
+public class OrganizationDaoImpl  {
 }
