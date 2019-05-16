@@ -1,18 +1,38 @@
 package ru.bellintegrator.practice.dao.office;
 
-import org.springframework.stereotype.Component;
 import ru.bellintegrator.practice.model.Office;
 
 import java.util.List;
 
-@Component
+/**
+ * слой Dao для офиса
+ */
 public interface OfficeDao {
+    /**
+     * Формирует лист с типом данных Office по заданым парамтрам
+     *
+     * @param office
+     */
     public List<Office> getList(Office office);
 
+    /**
+     * Возвращает информацию об офисе по заданному id
+     *
+     * @param id
+     */
     public Office getById(Integer id);
 
-    public void update(Office office);
+    /**
+     * Обновить данные об офисе в БД
+     *
+     * @param office
+     */
+    public Office update(Office office);
 
-    public void add(Office office);
-
+    /**
+     * Добавить новый офис в БД
+     *
+     * @param
+     */
+    public Office add(Office office);
 }

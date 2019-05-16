@@ -1,6 +1,5 @@
 package ru.bellintegrator.practice.service;
 
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.bellintegrator.practice.view.user.UserView;
 
@@ -10,7 +9,6 @@ import java.util.List;
  * Сервис для сотрудников орг
  */
 @Validated
-@Service
 public interface UserService {
     /**
      * Получить список струдников по фильру из БД

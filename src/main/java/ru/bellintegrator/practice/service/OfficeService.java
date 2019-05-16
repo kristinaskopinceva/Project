@@ -9,8 +9,6 @@ import java.util.List;
  * Сервис для офиса
  */
 @Validated
-
-
 public interface OfficeService {
     /**
      * Получить список офисов по фильру из БД

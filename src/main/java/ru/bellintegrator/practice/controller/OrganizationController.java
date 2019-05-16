@@ -13,17 +13,12 @@ import ru.bellintegrator.practice.view.organization.OrganizationView;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-
-@Api(value = "OrganizationController", description = "Управление информацией об организациях")
 /**
- * Контроллер для орг
+ * Контроллер для организаций
  */
+@Api(value = "OrganizationController", description = "Управление информацией об организациях")
 @RestController
-
 @RequestMapping(value = "/api/organization", produces = APPLICATION_JSON_VALUE)
-
-
 public class OrganizationController {
     private final OrganizationService organizationService;
 

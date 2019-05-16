@@ -10,7 +10,9 @@ import ru.bellintegrator.practice.view.office.OfficeView;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
+/**
+ * Контроллер для офисов
+ */
 @Api(value = "OfficeController", description = "Управление информацией о офисах")
 @RestController
 @RequestMapping(value = "/api/office", produces = APPLICATION_JSON_VALUE)

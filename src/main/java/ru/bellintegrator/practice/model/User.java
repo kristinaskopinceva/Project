@@ -1,6 +1,17 @@
 package ru.bellintegrator.practice.model;
 
-import javax.persistence.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity(name = "user")
 public class User {
@@ -25,7 +36,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_id")
     private Country country;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Doc doc;
     @Column(name = "is_identified", nullable = false)
     private Boolean isIdentified;
@@ -119,8 +130,8 @@ public class User {
         return doc;
     }
 
-    public void setDoc(Doc doc) {
-        this.doc = doc;
+    public void setDoc(Doc docid) {
+        doc = docid;
     }
 
     public Boolean getIdentified() {

@@ -6,12 +6,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.dao.country.CountryDao;
 import ru.bellintegrator.practice.dao.office.OfficeDao;
 import ru.bellintegrator.practice.dao.user.UserDao;
+import ru.bellintegrator.practice.exception.MyException;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.model.mapper.MapperFacade;
 import ru.bellintegrator.practice.view.user.UserView;
 
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
@@ -37,7 +41,11 @@ public class UserServiceImpl implements UserService {
         User user = new User(officeDao.getById(userView.getId()), userView.getFirstName(), userView.getSecondName(),
                 userView.getMiddleName(), userView.getPosition(), countryDao.getById(userView.getCountry()));
         List<User> list = userDao.getList(user);
-        return mapperFacade.mapAsList(list, UserView.class);
+        if (!list.isEmpty()) {
+            return mapperFacade.mapAsList(list, UserView.class);
+        } else {
+            throw new MyException("Список сотрудников по указанным параметрам не сформирован!");
+        }
     }
 
     /**
@@ -47,7 +55,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserView getById(Integer id) {
         User user = userDao.getById(id);
-        return mapperFacade.map(user, UserView.class);
+        if (user != null) {
+            return mapperFacade.map(user, UserView.class);
+        } else {
+            throw new MyException("Сотрудник с id: " + id + " не найден в БД!");
+        }
     }
 
     /**
@@ -56,7 +68,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(UserView userView) {
-        userDao.update(mapperFacade.map(userView, User.class));
+        if (userDao.getById(userView.getId()) != null) {
+            userDao.update(mapperFacade.map(userView, User.class));
+        } else {
+            throw new MyException("Указанный id: " + userView.getId() + " не найден, обновление не будет произведено!");
+        }
     }
 
     /**
@@ -65,7 +81,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(UserView userView) {
-        userDao.add(mapperFacade.map(userView, User.class));
+        if (userView != null) {
+            userDao.add(mapperFacade.map(userView, User.class));
+        } else {
+            throw new MyException("Нет инфорамации о новом сотруднике, запись не создана!");
+        }
     }
 
 }

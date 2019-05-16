@@ -1,17 +1,38 @@
 package ru.bellintegrator.practice.dao.organization;
 
-import org.springframework.stereotype.Component;
 import ru.bellintegrator.practice.model.Organization;
 
 import java.util.List;
 
-@Component
+/**
+ * слой Dao для организаций
+ */
 public interface OrganizationDao {
-    public Organization getById(Integer id);
-
+    /**
+     * Формирует лист с типом данных Organization по заданым парамтрам
+     *
+     * @param organization
+     */
     public List<Organization> getList(Organization organization);
 
-    public void update(Organization organization);
+    /**
+     * Возвращает информацию об организации по заданному id
+     *
+     * @param id
+     */
+    public Organization getById(Integer id);
 
-    public void add(Organization organization);
+    /**
+     * Обновить данные об организации в БД
+     *
+     * @param organization
+     */
+    public Organization update(Organization organization);
+
+    /**
+     * Добавить организацию в БД
+     *
+     * @param organization
+     */
+    public Organization add(Organization organization);
 }

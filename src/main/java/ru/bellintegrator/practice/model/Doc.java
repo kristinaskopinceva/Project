@@ -1,8 +1,19 @@
 package ru.bellintegrator.practice.model;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import java.util.Date;
 
-@Entity (name = "docs")
+@Entity(name = "doc")
 
 public class Doc {
 
@@ -11,36 +22,39 @@ public class Doc {
     private Integer id;
     @Version
     private Integer version;
-    @Column(name = "doc_code",nullable = false)
-    private Integer docCode;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @Column(name = "doc_number",nullable = false,length = 30)
-    private String docNumber;
-    @Column(name = "doc_date")
-    private Date docDate;
+    @ManyToOne
+    @JoinColumn(name = "id_code_type")
+    private DocType docType;
+    @Column(name = "number", nullable = false, length = 30)
+    private String number;
+    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
 
-    public Doc(){ }
+    public Doc() {
+    }
 
-    public Doc(Integer docCode,User userId, String docNumber,Date docDate){
-        this.docCode = docCode;
-        this. user = userId;
-        this.docNumber = docNumber;
-        this.docDate = docDate;
+    public Doc(Integer docCode, User userId, String docNumber, Date docDate) {
+        this.id = docCode;
+        this.user = userId;
+        this.number = docNumber;
+        this.date = docDate;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getDocCode() {
-        return docCode;
+    public DocType getDocType() {
+        return docType;
     }
 
-    public void setDocCode(Integer docCode) {
-        this.docCode = docCode;
+    public void setDocType(DocType docType) {
+        this.docType = docType;
     }
 
     public User getUser() {
@@ -52,18 +66,18 @@ public class Doc {
     }
 
     public String getDocNumber() {
-        return docNumber;
+        return number;
     }
 
     public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
+        this.number = docNumber;
     }
 
     public Date getDocDate() {
-        return docDate;
+        return date;
     }
 
     public void setDocDate(Date docDate) {
-        this.docDate = docDate;
+        this.date = docDate;
     }
 }

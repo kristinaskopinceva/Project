@@ -10,13 +10,13 @@ import ru.bellintegrator.practice.view.user.UserView;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
+/**
+ * Контроллер для сотрудников
+ */
 @Api(value = "UserController", description = "Управление информацией о работниках")
 @RestController
 @RequestMapping(value = "/api/user", produces = APPLICATION_JSON_VALUE)
-
 public class UserController {
-
     private final UserService userService;
 
     @Autowired

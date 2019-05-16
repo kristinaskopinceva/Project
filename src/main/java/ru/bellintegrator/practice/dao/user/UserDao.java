@@ -1,18 +1,38 @@
 package ru.bellintegrator.practice.dao.user;
 
-import org.springframework.stereotype.Component;
 import ru.bellintegrator.practice.model.User;
 
 import java.util.List;
 
-@Component
+/**
+ * слой Dao для сотрудников
+ */
 public interface UserDao {
-    List<User> getList(User user);
+    /**
+     * Формирует лист с типом данных User по заданым парамтрам
+     *
+     * @param user
+     */
+    public List<User> getList(User user);
 
-    User getById(Integer id);
+    /**
+     * Возвращает информацию о сотруднике по заданному id
+     *
+     * @param id
+     */
+    public User getById(Integer id);
 
-    User update(User user);
+    /**
+     * Обновить данные о сотруднике в БД
+     *
+     * @param user
+     */
+    public void update(User user);
 
-    User add(User user);
-
+    /**
+     * Добавить сотрудника в БД
+     *
+     * @param user
+     */
+    public void add(User user);
 }

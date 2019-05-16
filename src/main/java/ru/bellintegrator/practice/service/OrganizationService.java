@@ -1,6 +1,5 @@
 package ru.bellintegrator.practice.service;
 
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.bellintegrator.practice.view.organization.OrganizationView;
 
@@ -10,7 +9,6 @@ import java.util.List;
  * Сервис для огранизаций
  */
 @Validated
-@Service
 public interface OrganizationService {
     /**
      * Получить список огр по фильру из БД
