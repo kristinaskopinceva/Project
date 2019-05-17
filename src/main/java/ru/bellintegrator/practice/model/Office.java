@@ -1,6 +1,5 @@
 package ru.bellintegrator.practice.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,26 +18,29 @@ public class Office {
     @Version
     private Integer version = 0;
     @ManyToOne(fetch = FetchType.LAZY)
-      @JoinColumn(name = "org_id")
-        private Organization organization;
-    @Column(nullable = false,length = 50)
+    @JoinColumn(name = "org_id")
+    private Organization organization;
+    @Column(nullable = false, length = 50)
     private String name;
-    @Column(nullable = false,length = 150)
+    @Column(nullable = false, length = 150)
     private String address;
-    @Column(nullable = false,length = 20)
+    @Column(nullable = false, length = 20)
     private String phone;
-    @Column(name = "is_active",nullable = false)
+    @Column(name = "is_active", nullable = false)
     Boolean isActive;
-    public Office(){}
+
+    public Office() {
+    }
 
     public Office(Organization org, String name, String phone, Boolean isActive) {
-        organization=org;
+        organization = org;
         this.name = name;
         this.phone = phone;
         this.isActive = isActive;
     }
-    public Office(Organization org, String name,String address, String phone, Boolean isActive) {
-        organization=org;
+
+    public Office(Organization org, String name, String address, String phone, Boolean isActive) {
+        organization = org;
         this.name = name;
         this.address = address;
         this.phone = phone;
@@ -80,10 +82,12 @@ public class Office {
     public void setActive(Boolean active) {
         isActive = active;
     }
+
     public Organization getOrganization() {
         return organization;
     }
-    public void setOrganization(Organization org ) {
+
+    public void setOrganization(Organization org) {
         organization = org;
     }
 }

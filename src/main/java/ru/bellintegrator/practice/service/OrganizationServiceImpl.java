@@ -3,7 +3,8 @@ package ru.bellintegrator.practice.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.bellintegrator.practice.dao.organization.OrganizationDao;
-import ru.bellintegrator.practice.exception.MyException;
+import ru.bellintegrator.practice.exception.DaoException;
+import ru.bellintegrator.practice.exception.ServiceException;
 import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.model.mapper.MapperFacade;
 import ru.bellintegrator.practice.view.organization.OrganizationView;
@@ -37,7 +38,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (!list.isEmpty()) {
             return mapperFacade.mapAsList(list, OrganizationView.class);
         } else {
-            throw new MyException("Список организаций по указанным параметрам не сформирован!");
+            throw new ServiceException("Список организаций по указанным параметрам не сформирован!");
         }
     }
 
@@ -48,10 +49,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public OrganizationView getById(Integer id) {
         Organization organization = organizationDao.getById(id);
-        if (organizationDao.getById(id) != null) {
+        if (organization != null) {
             return mapperFacade.map(organization, OrganizationView.class);
         } else {
-            throw new MyException("Организация с id: " + id + "не найдена в БД!");
+            throw new ServiceException("Организация с id: " + id + " не найдена в БД!");
         }
     }
 
@@ -61,12 +62,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional
     public void update(OrganizationView organizationView) {
-        if (organizationDao.getById(organizationView.getId()) != null) {
+        if (organizationView.getName() != null && organizationView.getFullName() != null && organizationView.getInn() != null && organizationView.getKpp() != null &&
+                organizationView.getAddress() != null && (organizationDao.getById(organizationView.getId()) != null)) {
             organizationDao.update(mapperFacade.map(organizationView, Organization.class));
         } else {
-            throw new MyException("Указанный id: " + organizationView.getId() + " не найден в БД, обновление не будет произведено!");
+            throw new ServiceException("Указанный id: " + organizationView.getId() + " не найден или не заполнены обязательные поля, обновление не будет произведено!");
         }
     }
+
 
     /**
      * {@inheritDoc}
@@ -74,10 +77,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional
     public void add(OrganizationView organizationView) {
-        if (organizationView != null) {
+        if (organizationView.getName() != null && organizationView.getFullName() != null && organizationView.getInn() != null &&
+                organizationView.getKpp() != null && organizationView.getAddress() != null) {
             organizationDao.add(mapperFacade.map(organizationView, Organization.class));
         } else {
-            throw new MyException("Нет инфорамации о новой организации, запись не создана!");
+            throw new DaoException("Обязательные параметры указаны не полностью, запись не будет создана в БД!");
         }
     }
 }

@@ -2,7 +2,7 @@ package ru.bellintegrator.practice.dao.organization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.exception.MyException;
+import ru.bellintegrator.practice.exception.DaoException;
 import ru.bellintegrator.practice.model.Organization;
 
 import javax.persistence.EntityManager;
@@ -57,12 +57,11 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization update(Organization org) {
-        //проверка на обяз.поля in при update, проверка на id в бд есть в слое сервис
         if (org.getName() != null && org.getFullName() != null && org.getInn() != null && org.getKpp() != null &&
                 org.getAddress() != null) {
             return em.merge(org);
         } else {
-            throw new MyException("Не все параметры указаны, обновление информации не будет произведено!");
+            throw new DaoException("Пустая ссылка в объекте org, обновление информации не будет произведено!");
         }
     }
 
@@ -71,12 +70,10 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization add(Organization org) {
-        if (org.getName() != null && org.getFullName() != null && org.getInn() != null &&
-                org.getKpp() != null && org.getAddress() != null) {
+        if (org != null) {
             em.persist(org);
             return org;
         }
-        throw new MyException("Обязательные параметры указаны не полностью, запись не будет создана в БД!");
+        throw new DaoException("Пустая ссылка в объекте org, запись не будет создана в БД!");
     }
-
 }

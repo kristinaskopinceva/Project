@@ -14,9 +14,7 @@ import javax.persistence.Version;
 import java.util.Date;
 
 @Entity(name = "doc")
-
 public class Doc {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

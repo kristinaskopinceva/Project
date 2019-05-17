@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.bellintegrator.practice.dao.office.OfficeDao;
 import ru.bellintegrator.practice.dao.organization.OrganizationDao;
-import ru.bellintegrator.practice.exception.MyException;
+import ru.bellintegrator.practice.exception.ServiceException;
 import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.mapper.MapperFacade;
 import ru.bellintegrator.practice.view.office.OfficeView;
@@ -41,7 +41,7 @@ public class OfficeServiceImpl implements OfficeService {
         if (!officeDaoList.isEmpty()) {
             return mapperFacade.mapAsList(officeDaoList, OfficeView.class);
         } else {
-            throw new MyException("Список офисов по указанным параметрам не сформирован!");
+            throw new ServiceException("Список офисов по указанным параметрам не сформирован!");
         }
     }
 
@@ -55,9 +55,8 @@ public class OfficeServiceImpl implements OfficeService {
         if (office != null) {
             return mapperFacade.map(office, OfficeView.class);
         } else {
-            throw new MyException("Офис с id: " + id + " не найден в БД!");
+            throw new ServiceException("Офис с id: " + id + " не найден в БД!");
         }
-
     }
 
     /**
@@ -66,10 +65,12 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public void update(OfficeView officeView) {
-        if (officeDao.getById(officeView.getId())!= null) {
+        if (officeView.getId() != null && officeView.getName() != null && officeView.getAddress() != null &&
+                (officeDao.getById(officeView.getId()) != null)) {
             officeDao.update(mapperFacade.map(officeView, Office.class));
         } else {
-            throw new MyException("Указанный id: "+officeView.getId()+" не найден, обновление не будет произведено!");
+            throw new ServiceException("Указанный id: " + officeView.getId() + " не найден или не заполнены обязательные поля," +
+                    " обновление не будет произведено!");
         }
     }
 
@@ -79,16 +80,11 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public void add(OfficeView officeView) {
-        organizationDao.getById(officeView.getOrgId());
-        Office office = new Office(organizationDao.getById(officeView.getOrgId()),
-                officeView.getName(), officeView.getAddress(), officeView.getPhone(),
-                officeView.getActive());
-        if (office != null) {
-            officeDao.add(office);
+        if ((officeView.getOrgId() != null && officeView.getName() != null && officeView.getAddress() != null
+                && officeView.getPhone() != null && officeView.getActive() != null)) {
+            officeDao.add(mapperFacade.map(officeView, Office.class));
         } else {
-            throw new MyException("Нет инфорамации о новом офисе, запись не создана!");
+            throw new ServiceException("Обязательные параметры указаны не полностью, запись не будет создана в БД");
         }
-
-
     }
 }

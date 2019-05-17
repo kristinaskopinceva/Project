@@ -2,8 +2,7 @@ package ru.bellintegrator.practice.dao.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.dao.document.DocDao;
-import ru.bellintegrator.practice.exception.MyException;
+import ru.bellintegrator.practice.exception.DaoException;
 import ru.bellintegrator.practice.model.User;
 
 import javax.persistence.EntityManager;
@@ -20,12 +19,10 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
     private final EntityManager em;
-    private final DocDao docDao;
 
     @Autowired
-    public UserDaoImpl(EntityManager em, DocDao docDao) {
+    public UserDaoImpl(EntityManager em) {
         this.em = em;
-        this.docDao = docDao;
     }
 
     /**
@@ -61,10 +58,10 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void update(User user) {
-        if (user.getId() != null && user.getFirstName() != null && user.getPosition() != null) {
+        if (user != null) {
             em.merge(user);
         } else {
-            throw new MyException("Не все параметры указаны, обновление информации не будет произведено!");
+            throw new DaoException("Пустая ссылка в объекте user, обновление информации не будет произведено!");
         }
     }
 
@@ -73,13 +70,12 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void add(User user) {
-        if (user.getOffice() != null && user.getFirstName() != null && user.getPosition() != null) {
+        if (user != null) {
             em.persist(user);
         } else {
-            throw new MyException("Обязательные параметры указаны не полностью, запись не будет создана в БД!");
+            throw new DaoException("Пустая ссылка в объекте user, запись не будет создана в БД!");
         }
     }
-
 }
 
 

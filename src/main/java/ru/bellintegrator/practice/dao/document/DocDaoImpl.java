@@ -2,7 +2,7 @@ package ru.bellintegrator.practice.dao.document;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.exception.MyException;
+import ru.bellintegrator.practice.exception.DaoException;
 import ru.bellintegrator.practice.model.Doc;
 
 import javax.persistence.EntityManager;
@@ -27,7 +27,7 @@ public class DocDaoImpl implements DocDao {
         if (doc != null) {
             em.merge(doc);
         } else {
-            throw new MyException("Невозможно обновить информацию о докуменете сотрудника!");
+            throw new DaoException("Невозможно обновить информацию о докуменете сотрудника!");
         }}
         /**
          * {@inheritDoc}
@@ -37,7 +37,7 @@ public class DocDaoImpl implements DocDao {
             if (doc != null) {
                 em.persist(doc);
             } else {
-                throw new MyException("Невозможно сщздать информацию о докуменете сотрудника!");
+                throw new DaoException("Невозможно сщздать информацию о докуменете сотрудника!");
             }}
         }
 

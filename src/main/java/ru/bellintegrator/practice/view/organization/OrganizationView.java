@@ -11,7 +11,6 @@ public class OrganizationView {
     private Boolean isActive;
 
     public OrganizationView() {
-
     }
 
     public Integer getId() {
@@ -77,6 +76,4 @@ public class OrganizationView {
     public void setActive(Boolean active) {
         isActive = active;
     }
-
-
 }

@@ -1,29 +1,43 @@
 package ru.bellintegrator.practice.model;
-import javax.persistence.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import java.util.Set;
 
-@Entity (name = "organization")
+/**
+ * Организация
+ */
+@Entity(name = "organization")
 public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Version
     private Integer version;
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false, length = 50)
     private String name;
-    @Column(name = "full_name",nullable = false,length = 100)
+    @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
-    @Column(nullable = false,length = 9)
+    @Column(nullable = false, length = 9)
     private String inn;
-    @Column(nullable = false,length = 12)
+    @Column(nullable = false, length = 12)
     private String kpp;
-    @Column(nullable = false,length = 150)
+    @Column(nullable = false, length = 150)
     private String address;
-    @Column(nullable = false,length = 20)
+    @Column(nullable = false, length = 20)
     private String phone;
-    @Column(name = "is_active",nullable = false)
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive;
-    public Organization() {}
+
+    public Organization() {
+    }
+
     public Organization(String name, String fullName, String inn, String kpp, String address, String phone, Boolean isActive) {
         this.name = name;
         this.fullName = fullName;
@@ -34,11 +48,13 @@ public class Organization {
         this.isActive = isActive;
 
     }
-    public Organization(String name, String inn, Boolean isActiveParam){
+
+    public Organization(String name, String inn, Boolean isActiveParam) {
         this.name = name;
         this.inn = inn;
         isActive = isActiveParam;
     }
+
     public Integer getId() {
         return id;
     }
@@ -100,12 +116,13 @@ public class Organization {
         isActive = active;
     }
 
-    @OneToMany( mappedBy = "organization", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "organization", cascade = {CascadeType.ALL})
     private Set<Office> office;
 
     public Set<Office> getOffice() {
         return office;
     }
+
     public void setOffice(Set<Office> office) {
         this.office = office;
     }

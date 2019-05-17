@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.dao.country.CountryDao;
 import ru.bellintegrator.practice.dao.office.OfficeDao;
 import ru.bellintegrator.practice.dao.user.UserDao;
-import ru.bellintegrator.practice.exception.MyException;
+import ru.bellintegrator.practice.exception.ServiceException;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.model.mapper.MapperFacade;
 import ru.bellintegrator.practice.view.user.UserView;
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         if (!list.isEmpty()) {
             return mapperFacade.mapAsList(list, UserView.class);
         } else {
-            throw new MyException("Список сотрудников по указанным параметрам не сформирован!");
+            throw new ServiceException("Список сотрудников по указанным параметрам не сформирован!");
         }
     }
 
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             return mapperFacade.map(user, UserView.class);
         } else {
-            throw new MyException("Сотрудник с id: " + id + " не найден в БД!");
+            throw new ServiceException("Сотрудник с id: " + id + " не найден в БД!");
         }
     }
 
@@ -68,10 +68,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(UserView userView) {
-        if (userDao.getById(userView.getId()) != null) {
+        if (userView.getId() != null && userView.getFirstName() != null && userView.getPosition() != null &&
+                (userDao.getById(userView.getId())) != null) {
             userDao.update(mapperFacade.map(userView, User.class));
         } else {
-            throw new MyException("Указанный id: " + userView.getId() + " не найден, обновление не будет произведено!");
+            throw new ServiceException("Указанный id: " + userView.getId() + " не найден или не заполнены обязательные поля," +
+                    " обновление не будет произведено!");
         }
     }
 
@@ -81,11 +83,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(UserView userView) {
-        if (userView != null) {
+        if (userView.getOffice() != null && userView.getFirstName() != null && userView.getPosition() != null) {
             userDao.add(mapperFacade.map(userView, User.class));
         } else {
-            throw new MyException("Нет инфорамации о новом сотруднике, запись не создана!");
+            throw new ServiceException("Обязательные параметры указаны не полностью, запись не будет создана в БД");
         }
     }
-
 }

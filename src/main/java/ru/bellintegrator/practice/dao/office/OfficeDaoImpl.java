@@ -2,7 +2,7 @@ package ru.bellintegrator.practice.dao.office;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.exception.MyException;
+import ru.bellintegrator.practice.exception.DaoException;
 import ru.bellintegrator.practice.model.Office;
 
 import javax.persistence.EntityManager;
@@ -39,8 +39,8 @@ public class OfficeDaoImpl implements OfficeDao {
         predicates.add(builder.equal(officeRoot.get("phone"), office.getPhone()));
         predicates.add(builder.equal(officeRoot.get("isActive"), office.getActive()));
         criteriaQuery.select(officeRoot).where(predicates.toArray(new Predicate[]{}));
-        List<Office> officeList = em.createQuery(criteriaQuery).getResultList();
-        return officeList;
+        return em.createQuery(criteriaQuery).getResultList();
+
     }
 
     /**
@@ -57,10 +57,10 @@ public class OfficeDaoImpl implements OfficeDao {
      */
     @Override
     public Office update(Office office) {
-        if (office.getId() != null && office.getName() != null && office.getAddress() != null) {
+        if(office!=null){
             return em.merge(office);
         } else {
-            throw new MyException("Не все параметры указаны, обновление информации не будет произведено!");
+            throw new DaoException("Пустая ссылка в объекте office, обновление информации не будет произведено!");
         }
     }
 
@@ -69,11 +69,11 @@ public class OfficeDaoImpl implements OfficeDao {
      */
     @Override
     public Office add(Office office) {
-        if (office.getOrganization().getId() != null && office.getName() != null && office.getAddress() != null) {
+        if (office != null) {
             em.persist(office);
             return office;
         } else {
-            throw new MyException("Обязательные параметры указаны не полностью, запись не будет создана в БД!");
+            throw new DaoException("Пустая ссылка в объекте office, запись не будет создана в БД!");
         }
     }
 

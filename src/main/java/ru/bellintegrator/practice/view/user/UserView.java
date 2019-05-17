@@ -1,15 +1,12 @@
 package ru.bellintegrator.practice.view.user;
 
-
 import java.util.Date;
 
 /**
  * класс сотрудники представление
  * данные из этого view будут сериализованы в json
  */
-
 public class UserView {
-
     private Integer id;
     private Integer officeId;
     private String firstName;
@@ -20,7 +17,8 @@ public class UserView {
     private String docName;
     private String docNumber;
     private Date docDate;
-    private Integer countryId;
+    private Integer citizenshipName;
+    private Integer citizenshipCode;
     private Boolean isIdentified;
 
     public UserView() {
@@ -106,12 +104,20 @@ public class UserView {
         this.docDate = docDate;
     }
 
-    public Integer getCountry() {
-        return countryId;
+    public Integer getCitizenshipName() {
+        return citizenshipName;
     }
 
-    public void setCountry(Integer country) {
-        this.countryId = country;
+    public void setCitizenshipName(Integer citizenshipName) {
+        this.citizenshipName = citizenshipName;
+    }
+
+    public Integer getCitizenshipCode() {
+        return citizenshipCode;
+    }
+
+    public void setCitizenshipCode(Integer citizenshipCode) {
+        this.citizenshipCode = citizenshipCode;
     }
 
     public Boolean getIdentified() {
