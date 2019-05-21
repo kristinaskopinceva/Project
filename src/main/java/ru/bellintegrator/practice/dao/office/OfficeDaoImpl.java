@@ -57,7 +57,7 @@ public class OfficeDaoImpl implements OfficeDao {
      */
     @Override
     public Office update(Office office) {
-        if(office!=null){
+        if (office != null) {
             return em.merge(office);
         } else {
             throw new DaoException("Пустая ссылка в объекте office, обновление информации не будет произведено!");

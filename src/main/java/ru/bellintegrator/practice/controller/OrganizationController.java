@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.bellintegrator.practice.controller.advice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.organization.OrganizationView;
 
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 /**
  * Контроллер для организаций
  */
@@ -27,23 +29,27 @@ public class OrganizationController {
         this.organizationService = organizationService;
     }
 
-    /**
-     * Метод возвращает список из OrganizationView
-     *
-     * @param organizationView объект {@link OrganizationView} для отображения данных сотрудника
-     * @return список объектов {@link OrganizationView}
-     */
     @ApiOperation(value = "Получить список орг по фильтру", httpMethod = "POST")
     @RequestMapping(value = "/list")
     public List<OrganizationView> getOrgByFilter(@RequestBody OrganizationView organizationView) {
-        return organizationService.getList(organizationView);
+        List<OrganizationView> organizationViews = organizationService.getList(organizationView);
+        if (organizationViews.isEmpty()) {
+            throw new IllegalStateException("Организации не найдены!");
+        } else {
+            return organizationViews;
+        }
     }
 
 
     @ApiOperation(value = "Получить огр по id", httpMethod = "GET")
     @RequestMapping(value = "/{id:[\\d]+}\"}")
     public OrganizationView getOrgById(@PathVariable("id") Integer id) {
-        return organizationService.getById(id);
+        OrganizationView organizationView = organizationService.getById(id);
+        if (organizationView == null) {
+            throw new CustomNotFoundException("Организация с id" + id + " не найдена");
+        } else {
+            return organizationView;
+        }
     }
 
     @ApiOperation(value = "Обновить орг", httpMethod = "POST")

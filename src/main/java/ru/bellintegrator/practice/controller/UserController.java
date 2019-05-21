@@ -3,13 +3,20 @@ package ru.bellintegrator.practice.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.bellintegrator.practice.controller.advice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.service.UserService;
 import ru.bellintegrator.practice.view.user.UserView;
 
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 /**
  * Контроллер для сотрудников
  */
@@ -27,13 +34,23 @@ public class UserController {
     @ApiOperation(value = "Получить список сотрудников по фильтру", httpMethod = "POST")
     @PostMapping("/list")
     public List<UserView> getList(@RequestBody UserView view) {
-        return userService.getList(view);
+        List<UserView> userViews = userService.getList(view);
+        if (userViews.isEmpty()) {
+            throw new IllegalStateException("Сотрудники не найдены!");
+        } else {
+            return userViews;
+        }
     }
 
     @ApiOperation(value = "Получить сотрудников по id", httpMethod = "GET")
     @GetMapping(value = "/{id:[\\d]+}\"}")
     public UserView getById(@PathVariable("id") Integer id) {
-        return userService.getById(id);
+        UserView userView = userService.getById(id);
+        if (userView == null) {
+            throw new CustomNotFoundException("Организация с id " + id + " не найдена");
+        } else {
+            return userView;
+        }
     }
 
     @ApiOperation(value = "Создать и сохранить измнения", httpMethod = "POST")

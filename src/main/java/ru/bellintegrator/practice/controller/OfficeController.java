@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.service.OfficeService;
 import ru.bellintegrator.practice.view.office.OfficeView;
+import ru.bellintegrator.practice.controller.advice.exception.CustomNotFoundException;
 
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 /**
  * Контроллер для офисов
  */
@@ -27,15 +29,26 @@ public class OfficeController {
 
     @ApiOperation(value = "Получить список офисов по фильтру", httpMethod = "POST")
     @PostMapping("/list")
-    public List<OfficeView> getList(@RequestBody OfficeView filter) {
+    public List<OfficeView> getList(@RequestBody OfficeView filter) throws Exception {
+        List<OfficeView> officeView = officeService.getList(filter);
+        if (officeView.isEmpty()) {
+            throw new IllegalStateException("Офисы не найдены");
+        } else {
+            return officeService.getList(filter);
 
-        return officeService.getList(filter);
+        }
     }
 
     @ApiOperation(value = "Получить оффисы по id", httpMethod = "GET")
     @GetMapping("/{id:[\\d]+}")
     public OfficeView getById(@PathVariable("id") Integer id) {
-        return officeService.getById(id);
+        OfficeView officeView = officeService.getById(id);
+        if (officeView == null) {
+            throw new CustomNotFoundException("Офис с id" + id + " не найден!");
+        } else {
+            return officeView;
+
+        }
     }
 
     @ApiOperation(value = "Обновить список оффисов", httpMethod = "POST")
