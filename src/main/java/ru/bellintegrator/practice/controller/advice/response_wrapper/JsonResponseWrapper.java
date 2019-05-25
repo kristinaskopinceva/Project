@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.controller.advice.responseWrapper;
+package ru.bellintegrator.practice.controller.advice.response_wrapper;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -14,7 +14,7 @@ import ru.bellintegrator.practice.controller.advice.exception.ErrorView;
  * Обертка для ответа от сервера
  */
 @RestControllerAdvice(basePackages = "ru.bellintegrator.practice.controller")
-public class JSONResponseWrapper implements ResponseBodyAdvice {
+public class JsonResponseWrapper implements ResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
@@ -22,28 +22,23 @@ public class JSONResponseWrapper implements ResponseBodyAdvice {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         if (body instanceof ErrorView) {
             return body;
+        } else if (body == null) {
+            return new ResponseResult().data;
         } else {
-            return new WrapperObj<Object>(body);
+            return new WrapperObject<Object>(body);
         }
     }
 
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     @JsonSerialize
-    private class WrapperObj<T> {
+    private static class WrapperObject<T> {
         private final Object data;
 
-        public WrapperObj(Object data) {
+        public WrapperObject(Object data) {
             this.data = data;
         }
-    }
-
-    enum ResponseMsg {
-        Success,
-        NotFound,
-        Failure
     }
 }

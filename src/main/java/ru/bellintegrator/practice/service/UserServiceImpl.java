@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public List<UserView> getList(UserView userView) {
         User user = new User(officeDao.getById(userView.getId()), userView.getFirstName(), userView.getSecondName(),
-                userView.getMiddleName(), userView.getPosition(), countryDao.getById(userView.getCountry()));
+                userView.getMiddleName(), userView.getPosition(), countryDao.getById(userView.getCitizenshipCode()));
         List<User> list = userDao.getList(user);
         if (!list.isEmpty()) {
             return mapperFacade.mapAsList(list, UserView.class);

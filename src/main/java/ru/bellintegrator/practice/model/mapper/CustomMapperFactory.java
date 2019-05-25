@@ -21,7 +21,6 @@ public class CustomMapperFactory implements FactoryBean<MapperFactory> {
                 .constructorResolverStrategy(null)
                 .build();
         mapperFactory.classMap(User.class, UserView.class)
-                .field("office.id", "officeId")
                 .field("country.code", "citizenshipCode")
                 .field("country.name", "citizenshipName")
                 .field("doc.name", "docName")
@@ -43,8 +42,6 @@ public class CustomMapperFactory implements FactoryBean<MapperFactory> {
 
     @Override
     public boolean isSingleton() {
-
         return true;
-
     }
 }

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -20,9 +21,11 @@ public class Doc {
     private Integer id;
     @Version
     private Integer version;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "name", length = 100)
+    private String name;
     @ManyToOne
     @JoinColumn(name = "id_code_type")
     private DocType docType;
@@ -31,7 +34,6 @@ public class Doc {
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
-
 
     public Doc() {
     }
@@ -55,6 +57,14 @@ public class Doc {
         this.docType = docType;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public User getUser() {
         return user;
     }
@@ -63,19 +73,19 @@ public class Doc {
         this.user = user;
     }
 
-    public String getDocNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setDocNumber(String docNumber) {
+    public void setNumber(String docNumber) {
         this.number = docNumber;
     }
 
-    public Date getDocDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDocDate(Date docDate) {
+    public void setDate(Date docDate) {
         this.date = docDate;
     }
 }

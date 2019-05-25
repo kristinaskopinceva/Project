@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
         predicates.add(builder.equal(userRoot.get("secondName"), user.getSecondName()));
         predicates.add(builder.equal(userRoot.get("middleName"), user.getMiddleName()));
         predicates.add(builder.equal(userRoot.get("position"), user.getPosition()));
-        predicates.add(builder.equal(userRoot.get("doc").get("docType").get("code"), user.getDoc().getDocType()));
+        predicates.add(builder.equal(userRoot.get("doc").get("docType").get("code"), user.getDoc()));
         predicates.add(builder.equal(userRoot.get("country").get("code"), user.getCountry().getCode()));
         criteriaQuery.select(userRoot).where(predicates.toArray(new Predicate[]{}));
         return em.createQuery(criteriaQuery).getResultList();

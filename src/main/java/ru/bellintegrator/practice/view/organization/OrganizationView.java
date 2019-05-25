@@ -76,4 +76,10 @@ public class OrganizationView {
     public void setActive(Boolean active) {
         isActive = active;
     }
+
+    @Override
+    public String toString() {
+        return "{id:" + id + ";name:" + name + ";fullName:" + fullName + ";inn:" + inn + ";KPP:" + kpp +
+                ";address" + address + ";phone:" + phone + ";isActive : " + isActive + "}";
+    }
 }

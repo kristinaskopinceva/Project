@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 @Entity(name = "user")
@@ -35,12 +35,15 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_id")
     private Country country;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Doc doc;
     @Column(name = "is_identified", nullable = false)
     private Boolean isIdentified;
 
     public User() {
+    }
+    public User(Doc doc){
+        this.doc = doc;
     }
 
     public User(Integer id, Office officeId, String firstName, String lastName, String middleName,
@@ -52,6 +55,7 @@ public class User {
         this.middleName = middleName;
         this.position = position;
         this.phone = phone;
+        this.doc = doc;
         country = countryId;
         isIdentified = isIdentified1;
     }
@@ -129,8 +133,8 @@ public class User {
         return doc;
     }
 
-    public void setDoc(Doc docid) {
-        doc = docid;
+    public void setDoc(Doc docId) {
+        doc = docId;
     }
 
     public Boolean getIdentified() {

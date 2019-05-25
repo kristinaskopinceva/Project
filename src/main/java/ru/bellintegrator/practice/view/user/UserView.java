@@ -17,7 +17,7 @@ public class UserView {
     private String docName;
     private String docNumber;
     private Date docDate;
-    private Integer citizenshipName;
+    private String citizenshipName;
     private Integer citizenshipCode;
     private Boolean isIdentified;
 
@@ -104,11 +104,11 @@ public class UserView {
         this.docDate = docDate;
     }
 
-    public Integer getCitizenshipName() {
+    public String getCitizenshipName() {
         return citizenshipName;
     }
 
-    public void setCitizenshipName(Integer citizenshipName) {
+    public void setCitizenshipName(String citizenshipName) {
         this.citizenshipName = citizenshipName;
     }
 
