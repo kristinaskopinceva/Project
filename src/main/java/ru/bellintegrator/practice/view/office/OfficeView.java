@@ -15,7 +15,6 @@ public class OfficeView {
 
 
     public OfficeView() {
-
     }
 
     public Integer getId() {

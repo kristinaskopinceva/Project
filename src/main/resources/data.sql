@@ -17,10 +17,10 @@ VALUES ('0', 'АШАН', 'ООО "АШАН"', '7703270067', '876543210', 'Соч
         true);
 
 INSERT INTO office (version, org_id, name, address, phone, is_active)
-VALUES ('0', '1', 'Офис Магнит ГК', 'Краснодар', '+7(861) 456-00-00', 'true');
+VALUES ('0', '1', 'Офис Магнит ГК', 'Краснодар', '+7(861)-456-00-00', 'true');
 
 INSERT INTO office (version, org_id, name, address, phone, is_active)
-VALUES ('0', '1', 'Офис Магнит Сочи', 'Сочи', '+7 (862) 657-55-56', 'true');
+VALUES ('0', '1', 'Офис Магнит Сочи', 'Сочи', '+7 (862)-657-55-56', 'true');
 
 INSERT INTO office (version, org_id, name, address, phone, is_active)
 VALUES ('0', '1', 'Офис Магнит Ростов', 'г. Ростов-на-Дону, ул. Малое Зеленое Кольцо, 5', '+7 (863)-333 25 -96',

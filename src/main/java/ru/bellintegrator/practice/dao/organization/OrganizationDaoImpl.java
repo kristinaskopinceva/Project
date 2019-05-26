@@ -57,11 +57,10 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization update(Organization org) {
-        if (org.getName() != null && org.getFullName() != null && org.getInn() != null && org.getKpp() != null &&
-                org.getAddress() != null) {
-            return em.merge(org);
-        } else {
+        if (org == null) {
             throw new DaoException("Пустая ссылка в объекте org, обновление информации не будет произведено!");
+        } else {
+            return em.merge(org);
         }
     }
 
@@ -70,10 +69,11 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization add(Organization org) {
-        if (org != null) {
+        if (org == null) {
+            throw new DaoException("Пустая ссылка в объекте org, запись не будет создана в БД!");
+        } else {
             em.persist(org);
             return org;
         }
-        throw new DaoException("Пустая ссылка в объекте org, запись не будет создана в БД!");
     }
 }

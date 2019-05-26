@@ -72,8 +72,7 @@ public class UserServiceImpl implements UserService {
                 (userDao.getById(userView.getId())) != null) {
             userDao.update(mapperFacade.map(userView, User.class));
         } else {
-            throw new ServiceException("Указанный id: " + userView.getId() + " не найден или не заполнены обязательные поля," +
-                    " обновление не будет произведено!");
+            throw new ServiceException("Указанный id  не найден или не заполнены обязательные поля, обновление не будет произведено!");
         }
     }
 
@@ -83,10 +82,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(UserView userView) {
-        if (userView.getOffice() != null && userView.getFirstName() != null && userView.getPosition() != null) {
+        if (userView.getOfficeId() != null && userView.getFirstName() != null && userView.getPosition() != null) {
             userDao.add(mapperFacade.map(userView, User.class));
         } else {
-            throw new ServiceException("Обязательные параметры указаны не полностью, запись не будет создана в БД");
+            throw new ServiceException("Обязательные параметры указаны не полностью, запись не будет создана в БД!");
         }
     }
 }

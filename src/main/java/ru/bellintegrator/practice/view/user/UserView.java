@@ -14,6 +14,7 @@ public class UserView {
     private String middleName;
     private String position;
     private String phone;
+    private String docCode;
     private String docName;
     private String docNumber;
     private Date docDate;
@@ -32,11 +33,11 @@ public class UserView {
         this.id = id;
     }
 
-    public Integer getOffice() {
+    public Integer getOfficeId() {
         return officeId;
     }
 
-    public void setOffice(Integer office) {
+    public void setOfficeId(Integer office) {
         this.officeId = office;
     }
 
@@ -70,6 +71,14 @@ public class UserView {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getDocCode() {
+        return docCode;
+    }
+
+    public void setDocCode(String docCode) {
+        this.docCode = docCode;
     }
 
     public String getPhone() {

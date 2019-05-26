@@ -69,7 +69,7 @@ public class OfficeServiceImpl implements OfficeService {
                 (officeDao.getById(officeView.getId()) != null)) {
             officeDao.update(mapperFacade.map(officeView, Office.class));
         } else {
-            throw new ServiceException("Указанный id: " + officeView.getId() + " не найден или не заполнены обязательные поля," +
+            throw new ServiceException("Указанный id не найден или не заполнены обязательные поля," +
                     " обновление не будет произведено!");
         }
     }
@@ -84,7 +84,7 @@ public class OfficeServiceImpl implements OfficeService {
                 && officeView.getPhone() != null && officeView.getActive() != null)) {
             officeDao.add(mapperFacade.map(officeView, Office.class));
         } else {
-            throw new ServiceException("Обязательные параметры указаны не полностью, запись не будет создана в БД");
+            throw new ServiceException("Обязательные параметры указаны не полностью, запись не будет создана в БД!");
         }
     }
 }
