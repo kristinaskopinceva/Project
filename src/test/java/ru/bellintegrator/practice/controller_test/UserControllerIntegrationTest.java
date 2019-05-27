@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.service;
+package ru.bellintegrator.practice.controller_test;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,8 +27,7 @@ import java.util.GregorianCalendar;
 @EnableAutoConfiguration
 @SpringBootTest(classes = {Application.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserControllerIntegrationTest {
-    final String patternURL = "http://localhost:8080/api/user";
-    private HttpHeaders header;
+   static final String PATTERN_URL = "http://localhost:8080/api/user";
     @Autowired
     private TestRestTemplate testRestTemplate;
 
@@ -41,10 +40,10 @@ public class UserControllerIntegrationTest {
         userView.setMiddleName("Иванович");
         userView.setPosition("Оператор");
         userView.setCitizenshipCode(643);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<UserView> httpEntity = new HttpEntity<>(userView, header);
-        ResponseEntity<UserView> responseEntity = testRestTemplate.exchange(patternURL + "/list", HttpMethod.POST, httpEntity,
+        ResponseEntity<UserView> responseEntity = testRestTemplate.exchange(PATTERN_URL + "/list", HttpMethod.POST, httpEntity,
                 new ParameterizedTypeReference<UserView>() {
                 });
         Assert.assertEquals("1Иванов", responseEntity.getBody() + responseEntity.getBody().getSecondName());
@@ -58,10 +57,10 @@ public class UserControllerIntegrationTest {
         userView.setMiddleName("Иванович");
         userView.setPosition("Оператор");
         userView.setCitizenshipCode(643);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<UserView> httpEntity = new HttpEntity<>(userView, header);
-        ResponseEntity<String> responseEntity = testRestTemplate.exchange(patternURL + "/list", HttpMethod.POST, httpEntity,
+        ResponseEntity<String> responseEntity = testRestTemplate.exchange(PATTERN_URL + "/list", HttpMethod.POST, httpEntity,
                 String.class);
         String expected = "{\"error\":Список сотрудников по указанным параметрам не сформирован!}";
         Assert.assertEquals(expected, responseEntity.getBody());
@@ -70,7 +69,7 @@ public class UserControllerIntegrationTest {
     @Test
     public void testGetOrgByIdWhenSuccess() {
         ResponseEntity<UserView> responseEntity =
-                testRestTemplate.exchange(patternURL + "/3", HttpMethod.GET, null,
+                testRestTemplate.exchange(PATTERN_URL + "/3", HttpMethod.GET, null,
                         new ParameterizedTypeReference<UserView>() {
                         });
         Assert.assertEquals("+7 (548) 958-79-99", responseEntity.getBody().getPhone());
@@ -79,7 +78,7 @@ public class UserControllerIntegrationTest {
     @Test
     public void testGetOrgByIdWhenError() {
         ResponseEntity<String> responseEntity =
-                testRestTemplate.exchange(patternURL + "/158", HttpMethod.GET, null,
+                testRestTemplate.exchange(PATTERN_URL + "/158", HttpMethod.GET, null,
                         new ParameterizedTypeReference<String>() {
                         });
         String expected = "{\"error\":Сотрудник с id: 158 не найден в БД!}";
@@ -102,11 +101,11 @@ public class UserControllerIntegrationTest {
         userView.setDocNumber("0307258963");
         userView.setCitizenshipCode(643);
         userView.setIdentified(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(userView, header);
         ResponseEntity<String> responseEntity =
-                testRestTemplate.exchange(patternURL + "/update", HttpMethod.POST, httpEntity, String.class);
+                testRestTemplate.exchange(PATTERN_URL + "/update", HttpMethod.POST, httpEntity, String.class);
         Assert.assertTrue("success", responseEntity.getBody().contains("success"));
     }
 
@@ -126,11 +125,11 @@ public class UserControllerIntegrationTest {
         userView.setDocNumber("0307258963");
         userView.setCitizenshipCode(643);
         userView.setIdentified(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(userView, header);
         ResponseEntity<String> responseEntity =
-                testRestTemplate.exchange(patternURL + "/update", HttpMethod.POST, httpEntity, String.class);
+                testRestTemplate.exchange(PATTERN_URL + "/update", HttpMethod.POST, httpEntity, String.class);
         String expected = "{\"error\":Указанный id не найден или не заполнены обязательные поля, обновление не будет произведено!}";
         Assert.assertEquals(expected, responseEntity.getBody());
     }
@@ -150,11 +149,11 @@ public class UserControllerIntegrationTest {
         userView.setDocNumber("0307356895");
         userView.setCitizenshipCode(380);
         userView.setIdentified(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(userView, header);
         ResponseEntity<String> responseEntity
-                = testRestTemplate.exchange(patternURL + "/add", HttpMethod.POST, httpEntity, String.class);
+                = testRestTemplate.exchange(PATTERN_URL + "/add", HttpMethod.POST, httpEntity, String.class);
         Assert.assertTrue("success", responseEntity.getBody().contains("success"));
     }
 
@@ -171,11 +170,11 @@ public class UserControllerIntegrationTest {
         userView.setDocDate(new GregorianCalendar(1985, Calendar.JANUARY, 25).getTime());
         userView.setDocNumber("0307356895");
         userView.setCitizenshipCode(380);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(userView, header);
         ResponseEntity<String> responseEntity
-                = testRestTemplate.exchange(patternURL + "/add", HttpMethod.POST, httpEntity, String.class);
+                = testRestTemplate.exchange(PATTERN_URL + "/add", HttpMethod.POST, httpEntity, String.class);
         String expected = "{\"error\":Обязательные параметры указаны не полностью, запись не будет создана в БД!}";
         Assert.assertEquals(expected, responseEntity.getBody());
     }

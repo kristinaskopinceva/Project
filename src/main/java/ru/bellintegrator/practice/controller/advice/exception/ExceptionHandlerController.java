@@ -26,8 +26,7 @@ public class ExceptionHandlerController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorView handleException(Exception e) {
         logger.error(e.getMessage());
-        return new ErrorView(e.getMessage());
+        return new ErrorView("Internal Server Error") ;
     }
-
 }
 

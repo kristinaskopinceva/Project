@@ -7,15 +7,13 @@ package ru.bellintegrator.practice.controller.advice.exception;
 public class ErrorView {
     private String error;
 
-    public ErrorView(String msg) {
-        this.error = msg;
+    public ErrorView(String error) {
+        this.error = error;
     }
 
-    public String getMessage() {
+    public String getError() {
         return error;
     }
 
-    public void setMessage(String message) {
-        this.error = message;
-    }
+
 }

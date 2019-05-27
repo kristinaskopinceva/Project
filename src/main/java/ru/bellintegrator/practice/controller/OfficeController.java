@@ -29,12 +29,12 @@ public class OfficeController {
 
     @ApiOperation(value = "Получить список офисов по фильтру", httpMethod = "POST")
     @PostMapping("/list")
-    public List<OfficeView> getList(@RequestBody OfficeView filter) throws Exception {
-        List<OfficeView> officeView = officeService.getList(filter);
-        if (officeView.isEmpty()) {
+    public List<OfficeView> getList(@RequestBody OfficeView officeView) throws Exception {
+        List<OfficeView> list = officeService.getList(officeView);
+        if (list.isEmpty()) {
             throw new IllegalStateException("Офисы не найдены");
         } else {
-            return officeService.getList(filter);
+            return officeService.getList(officeView);
 
         }
     }

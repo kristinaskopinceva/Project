@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.service;
+package ru.bellintegrator.practice.controller_test;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,8 +25,7 @@ import ru.bellintegrator.practice.view.organization.OrganizationView;
 @EnableAutoConfiguration
 @SpringBootTest(classes = {Application.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class OfficeControllerIntegrationTest {
-    final String patternURL = "http://localhost:8080/api/office";
-    private HttpHeaders header;
+   static final String PATTERN_URL = "http://localhost:8080/api/office";
     @Autowired
     private TestRestTemplate testRestTemplate;
 
@@ -37,10 +36,10 @@ public class OfficeControllerIntegrationTest {
         officeView.setName("Офис Магнит ГК");
         officeView.setPhone("+7(861)-456-00-00");
         officeView.setActive(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OfficeView> httpEntity = new HttpEntity<>(officeView, header);
-        ResponseEntity<OfficeView> responseEntity = testRestTemplate.exchange(patternURL + "/list", HttpMethod.POST, httpEntity,
+        ResponseEntity<OfficeView> responseEntity = testRestTemplate.exchange(PATTERN_URL + "/list", HttpMethod.POST, httpEntity,
                 new ParameterizedTypeReference<OfficeView>() {
                 });
         OfficeView data = responseEntity.getBody();//формируем ответ
@@ -55,10 +54,10 @@ public class OfficeControllerIntegrationTest {
         officeView.setName("Офис Магнит ГК");
         officeView.setPhone("+7(861)-456-00-00");
         officeView.setActive(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<OfficeView> httpEntity = new HttpEntity<>(officeView, header);
-        ResponseEntity<String> responseEntity = testRestTemplate.exchange(patternURL + "/list", HttpMethod.POST, httpEntity,
+        ResponseEntity<String> responseEntity = testRestTemplate.exchange(PATTERN_URL + "/list", HttpMethod.POST, httpEntity,
                 String.class);
         String expected = "{\"error\":Список офисов по указанным параметрам не сформирован!}";
         Assert.assertEquals(expected, responseEntity.getBody());
@@ -67,7 +66,7 @@ public class OfficeControllerIntegrationTest {
     @Test
     public void testGetOrgByIdWhenSuccess() {
         ResponseEntity<OfficeView> responseEntity =
-                testRestTemplate.exchange( patternURL + "/1", HttpMethod.GET, null,
+                testRestTemplate.exchange( PATTERN_URL + "/1", HttpMethod.GET, null,
                         new ParameterizedTypeReference<OfficeView>() {
                         });
         Assert.assertEquals("Офис Магнит ГК", responseEntity.getBody().getName());
@@ -76,7 +75,7 @@ public class OfficeControllerIntegrationTest {
     @Test
     public void testGetOrgByIdWhenError() {
         ResponseEntity<String> responseEntity =
-                testRestTemplate.exchange(patternURL + "/158", HttpMethod.GET, null,
+                testRestTemplate.exchange(PATTERN_URL + "/158", HttpMethod.GET, null,
                         new ParameterizedTypeReference<String>() {
                         });
         String expected = "{\"error\":\"Офис с id: 158 не найден в БД!\"}";
@@ -91,11 +90,11 @@ public class OfficeControllerIntegrationTest {
         officeView.setAddress("г.Краснодар, ул.Красная, 65/9");
         officeView.setPhone("89615400005");
         officeView.setActive(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(officeView, header);
         ResponseEntity<String> responseEntity =
-                testRestTemplate.exchange(patternURL + "/update", HttpMethod.POST, httpEntity, String.class);
+                testRestTemplate.exchange(PATTERN_URL + "/update", HttpMethod.POST, httpEntity, String.class);
         Assert.assertTrue("success", responseEntity.getBody().contains("success"));
     }
     @Test
@@ -104,11 +103,11 @@ public class OfficeControllerIntegrationTest {
         officeView.setId(1);
         officeView.setAddress("г.Краснодар, ул.Красная, 65/9");
         officeView.setActive(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(officeView, header);
         ResponseEntity<String> responseEntity =
-                testRestTemplate.exchange(patternURL + "/update", HttpMethod.POST, httpEntity, String.class);
+                testRestTemplate.exchange(PATTERN_URL + "/update", HttpMethod.POST, httpEntity, String.class);
         String expected = "{\"error\":Указанный id не найден или не заполнены обязательные поля, обновление не будет произведено!}";
         Assert.assertEquals(expected, responseEntity.getBody());
     }
@@ -121,11 +120,11 @@ public class OfficeControllerIntegrationTest {
         officeView.setAddress("г.Краснодар, ул. Уральская 221");
         officeView.setPhone("8961564000");
         officeView.setActive(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(officeView, header);
         ResponseEntity<String> responseEntity
-                = testRestTemplate.exchange(patternURL + "/add", HttpMethod.POST, httpEntity, String.class);
+                = testRestTemplate.exchange(PATTERN_URL + "/add", HttpMethod.POST, httpEntity, String.class);
         Assert.assertTrue("success", responseEntity.getBody().contains("success"));
     }
     @Test
@@ -136,11 +135,11 @@ public class OfficeControllerIntegrationTest {
         officeView.setAddress("г.Краснодар, ул. Уральская 221");
         officeView.setPhone("8961564000");
         officeView.setActive(true);
-        header = new HttpHeaders();
+        HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(organizationView, header);
         ResponseEntity<String> responseEntity
-                = testRestTemplate.exchange(patternURL + "/add", HttpMethod.POST, httpEntity, String.class);
+                = testRestTemplate.exchange(PATTERN_URL + "/add", HttpMethod.POST, httpEntity, String.class);
         String expected = "{\"error\":Обязательные параметры указаны не полностью, запись не будет создана в БД!}";
         Assert.assertEquals(expected, responseEntity.getBody());
     }

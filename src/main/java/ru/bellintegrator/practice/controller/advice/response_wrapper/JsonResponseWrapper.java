@@ -26,7 +26,7 @@ public class JsonResponseWrapper implements ResponseBodyAdvice {
         if (body instanceof ErrorView) {
             return body;
         } else if (body == null) {
-            return new ResponseResult().data;
+            return new ResponseResult("success");
         } else {
             return new WrapperObject<Object>(body);
         }
@@ -41,4 +41,6 @@ public class JsonResponseWrapper implements ResponseBodyAdvice {
             this.data = data;
         }
     }
+
+
 }

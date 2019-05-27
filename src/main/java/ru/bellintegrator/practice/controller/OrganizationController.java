@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bellintegrator.practice.controller.advice.exception.CustomNotFoundException;
-import ru.bellintegrator.practice.exception.ServiceException;
 import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.organization.OrganizationView;
 
@@ -33,17 +32,14 @@ public class OrganizationController {
     @ApiOperation(value = "Получить список орг по фильтру", httpMethod = "POST")
     @RequestMapping(value = "/list")
     public List<OrganizationView> getOrgByFilter(@RequestBody OrganizationView organizationView) {
-        if (organizationView == null) {
-            throw new ServiceException("Пустое тело запроса!");
-        } else {
-            List<OrganizationView> organizationViews = organizationService.getList(organizationView);
+        List<OrganizationView> organizationViews = organizationService.getList(organizationView);
             if (organizationViews.isEmpty()) {
                 throw new IllegalStateException("Организации не найдены!");
             } else {
                 return organizationViews;
             }
         }
-    }
+
 
     @ApiOperation(value = "Получить огр по id", httpMethod = "GET")
     @RequestMapping(value = "/{id:[\\d]+}\"}")
