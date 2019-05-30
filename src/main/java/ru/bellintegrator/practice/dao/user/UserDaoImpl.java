@@ -2,9 +2,6 @@ package ru.bellintegrator.practice.dao.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.dao.country.CountryDao;
-import ru.bellintegrator.practice.dao.doc_type.DocTypeDao;
-import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.view.user.UserView;
 
@@ -23,14 +20,10 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
     private final EntityManager em;
-    CountryDao countryDao;
-    DocTypeDao docTypeDao;
 
     @Autowired
-    public UserDaoImpl(EntityManager em, CountryDao countryDao, DocTypeDao docTypeDao) {
-        this.countryDao = countryDao;
+    public UserDaoImpl(EntityManager em) {
         this.em = em;
-        this.docTypeDao = docTypeDao;
     }
 
     /**
@@ -70,9 +63,6 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void update(User user) {
-        Doc doc = user.getDoc();
-        doc.setDocType(docTypeDao.getByName((user.getDoc().getDocType().getName())));
-        doc.setUser(user);
         em.merge(user);
     }
 
@@ -81,10 +71,6 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void add(User user) {
-        Doc doc = user.getDoc();
-        doc.setDocType(docTypeDao.getByCode(doc.getDocType().getCode()));
-        doc.setUser(user);
-        user.setCountry(countryDao.getByCode(user.getCountry().getCode()));
         em.persist(user);
     }
 }

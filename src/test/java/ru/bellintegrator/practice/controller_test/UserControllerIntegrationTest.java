@@ -129,7 +129,6 @@ public class UserControllerIntegrationTest {
         userView.setMiddleName("Сергеевич");
         userView.setPosition("Специалист ОЗ");
         userView.setPhone("896145897885");
-        //userView.setDocCode("21");
         userView.setDocName("Паспорт гражданина Российской Федерации");
         userView.setDocDate(new GregorianCalendar(1990, Calendar.JANUARY, 25).getTime());
         userView.setDocNumber("0307258963");

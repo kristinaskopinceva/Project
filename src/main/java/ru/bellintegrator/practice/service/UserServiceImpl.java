@@ -10,6 +10,7 @@ import ru.bellintegrator.practice.dao.office.OfficeDao;
 import ru.bellintegrator.practice.dao.user.UserDao;
 import ru.bellintegrator.practice.exception.ServiceException;
 import ru.bellintegrator.practice.model.Country;
+import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.model.mapper.MapperFacade;
 import ru.bellintegrator.practice.view.user.UserView;
@@ -84,6 +85,9 @@ public class UserServiceImpl implements UserService {
             user.setOffice(officeDao.getById(userView.getOfficeId()));
             Country country = countryDao.getById(userView.getCitizenshipCode());
             user.setCountry(country);
+            Doc doc = user.getDoc();
+            doc.setDocType(docTypeDao.getByName((user.getDoc().getDocType().getName())));
+            doc.setUser(user);
             userDao.update(user);
         } else {
             throw new ServiceException("Указанный id не найден или не заполнены обязательные поля, обновление не будет произведено!");
@@ -99,6 +103,10 @@ public class UserServiceImpl implements UserService {
         if (userView.getOfficeId() != null && userView.getFirstName() != null && userView.getPosition() != null && officeDao.getById(userView.getOfficeId()).getId() != null) {
             User user = mapperFacade.map(userView, User.class);
             user.setOffice(officeDao.getById(userView.getOfficeId()));
+            Doc doc = user.getDoc();
+            doc.setDocType(docTypeDao.getByCode(doc.getDocType().getCode()));
+            doc.setUser(user);
+            user.setCountry(countryDao.getByCode(user.getCountry().getCode()));
             userDao.add(user);
         } else {
             throw new ServiceException("Обязательные параметры указаны не полностью или не верно, запись не будет создана в БД!");
