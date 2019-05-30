@@ -2,10 +2,14 @@ package ru.bellintegrator.practice.dao.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.exception.DaoException;
+import ru.bellintegrator.practice.dao.country.CountryDao;
+import ru.bellintegrator.practice.dao.doc_type.DocTypeDao;
+import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.User;
+import ru.bellintegrator.practice.view.user.UserView;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -19,30 +23,38 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
     private final EntityManager em;
+    CountryDao countryDao;
+    DocTypeDao docTypeDao;
 
     @Autowired
-    public UserDaoImpl(EntityManager em) {
+    public UserDaoImpl(EntityManager em, CountryDao countryDao, DocTypeDao docTypeDao) {
+        this.countryDao = countryDao;
         this.em = em;
+        this.docTypeDao = docTypeDao;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<User> getList(User user) {
-        CriteriaBuilder builder = em.getCriteriaBuilder(); // строить объеты запросов
-        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class); // парамтеры типа возвра данных
-        Root<User> userRoot = criteriaQuery.from(User.class); //корн каталог для обхода деревва и отпра запрос в em
+    public List<User> getList(UserView userView) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(builder.equal(userRoot.get("office").get("id"), user.getOffice().getId()));
-        predicates.add(builder.equal(userRoot.get("firstName"), user.getFirstName()));
-        predicates.add(builder.equal(userRoot.get("secondName"), user.getSecondName()));
-        predicates.add(builder.equal(userRoot.get("middleName"), user.getMiddleName()));
-        predicates.add(builder.equal(userRoot.get("position"), user.getPosition()));
-        predicates.add(builder.equal(userRoot.get("doc").get("docType").get("code"), user.getDoc()));
-        predicates.add(builder.equal(userRoot.get("country").get("code"), user.getCountry().getCode()));
-        criteriaQuery.select(userRoot).where(predicates.toArray(new Predicate[]{}));
-        return em.createQuery(criteriaQuery).getResultList();
+        predicates.add(builder.equal(root.get("office").get("id"), userView.getOfficeId()));
+        predicates.add(builder.like(root.get("firstName"), userView.getFirstName()));
+        predicates.add(builder.like(root.get("secondName"), userView.getSecondName()));
+        predicates.add(builder.like(root.get("middleName"), userView.getMiddleName()));
+        predicates.add(builder.like(root.get("position"), userView.getPosition()));
+        predicates.add(builder.equal(root.get("doc").get("docType").get("code"),
+                userView.getDocCode()));
+        predicates.add(builder.equal(root.get("country").get("code"), userView.getCitizenshipCode()));
+        criteriaQuery
+                .where(predicates.toArray(new Predicate[]{}))
+                .select(root);
+        TypedQuery<User> query = em.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
     /**
@@ -58,11 +70,10 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void update(User user) {
-        if (user != null) {
-            em.merge(user);
-        } else {
-            throw new DaoException("Пустая ссылка в объекте user, обновление информации не будет произведено!");
-        }
+        Doc doc = user.getDoc();
+        doc.setDocType(docTypeDao.getByName((user.getDoc().getDocType().getName())));
+        doc.setUser(user);
+        em.merge(user);
     }
 
     /**
@@ -70,11 +81,11 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void add(User user) {
-        if (user != null) {
-            em.persist(user);
-        } else {
-            throw new DaoException("Пустая ссылка в объекте user, запись не будет создана в БД!");
-        }
+        Doc doc = user.getDoc();
+        doc.setDocType(docTypeDao.getByCode(doc.getDocType().getCode()));
+        doc.setUser(user);
+        user.setCountry(countryDao.getByCode(user.getCountry().getCode()));
+        em.persist(user);
     }
 }
 

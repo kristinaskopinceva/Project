@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.bellintegrator.practice.controller.advice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.service.UserService;
 import ru.bellintegrator.practice.view.user.UserView;
 
@@ -34,27 +33,17 @@ public class UserController {
     @ApiOperation(value = "Получить список сотрудников по фильтру", httpMethod = "POST")
     @PostMapping("/list")
     public List<UserView> getList(@RequestBody UserView view) {
-        List<UserView> userViews = userService.getList(view);
-        if (userViews.isEmpty()) {
-            throw new IllegalStateException("Сотрудники не найдены!");
-        } else {
-            return userViews;
-        }
+        return userService.getList(view);
     }
 
     @ApiOperation(value = "Получить сотрудников по id", httpMethod = "GET")
-    @GetMapping(value = "/{id:[\\d]+}\"}")
+    @GetMapping(value = "/{id:[\\d]+}")
     public UserView getById(@PathVariable("id") Integer id) {
-        UserView userView = userService.getById(id);
-        if (userView == null) {
-            throw new CustomNotFoundException("Организация с id " + id + " не найдена");
-        } else {
-            return userView;
-        }
+        return userService.getById(id);
     }
 
     @ApiOperation(value = "Создать и сохранить измнения", httpMethod = "POST")
-    @PostMapping("/save")
+    @PostMapping("/add")
     public void save(@RequestBody UserView view) {
         userService.add(view);
     }

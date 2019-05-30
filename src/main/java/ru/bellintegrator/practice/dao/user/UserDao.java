@@ -1,6 +1,7 @@
 package ru.bellintegrator.practice.dao.user;
 
 import ru.bellintegrator.practice.model.User;
+import ru.bellintegrator.practice.view.user.UserView;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public interface UserDao {
     /**
      * Формирует лист с типом данных User по заданым парамтрам
      *
-     * @param user
+     * @param userView
      */
-    public List<User> getList(User user);
+    public List<User> getList(UserView userView);
 
     /**
      * Возвращает информацию о сотруднике по заданному id

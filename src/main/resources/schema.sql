@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS user
   middle_name    VARCHAR(50),
   position       VARCHAR(50) NOT NULL,
   phone          VARCHAR(20),
-  citizenship_id INTEGER     NOT NULL,
+  citizenship_id INTEGER,
   is_identified  BOOLEAN     NOT NULL
 );
 CREATE INDEX IX_user_office_id ON user (office_id);
@@ -62,10 +62,10 @@ COMMENT ON TABLE user IS 'Пользователи';
 
 CREATE TABLE IF NOT EXISTS doc_type
 (
-  id       INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  version  INTEGER      NOT NULL,
-  doc_code INTEGER      NOT NULL,
-  name     VARCHAR(150) NOT NULL
+  id      INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  version INTEGER      NOT NULL,
+  code    INTEGER      NOT NULL,
+  name    VARCHAR(150) NOT NULL
 );
 COMMENT ON TABLE doc_type IS 'Типы документов';
 
@@ -73,9 +73,8 @@ CREATE TABLE IF NOT EXISTS doc
 (
   id           INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   version      INTEGER NOT NULL,
-  user_id      INTEGER NOT NULL,
-  name         VARCHAR(100),
-  id_code_type INTEGER NOT NULL,
+  user_id      INTEGER ,
+  id_code_type INTEGER ,
   number       VARCHAR(30),
   date         DATE
 );

@@ -41,11 +41,11 @@ VALUES ('0', '1', 'Иван', 'Иванов', 'Иванович', 'Операт�
 
 INSERT INTO user (version, office_id, first_name, second_name, middle_name, position, phone, citizenship_id,
                   is_identified)
-VALUES ('0', '2', 'Петр', 'Петров', 'Иванович', 'Шеф', '+7 (895) 956-09-96', '2', 'true');
+VALUES ('0', '2', 'Петр', 'Петров', 'Иванович', 'Шеф', '+7 (895) 956-09-96', '1', 'true');
 
 INSERT INTO user (version, office_id, first_name, second_name, middle_name, position, phone, citizenship_id,
                   is_identified)
-VALUES ('0', '3', 'Николай', 'Петренко', 'Иванович', 'Рук.сектора', '+7 (548) 958-79-99', '1', 'true');
+VALUES ('0', '3', 'Николай', 'Петренко', 'Иванович', 'Рук.сектора', '+7 (548) 958-79-99', '2', 'true');
 
 INSERT INTO user (version, office_id, first_name, second_name, middle_name, position, phone, citizenship_id,
                   is_identified)
@@ -57,60 +57,60 @@ VALUES ('0', '5', 'Нина', 'Крылова', 'Сергеевна', 'Бухг�
 
 INSERT INTO user (version, office_id, first_name, second_name, middle_name, position, phone, citizenship_id,
                   is_identified)
-VALUES ('0', '5', 'Елена', 'Иванова', 'Сергеевна', 'Шеф', '+7 (358) 958-79-99', '2', 'true');
+VALUES ('0', '5', 'Елена', 'Иванова', 'Сергеевна', 'Шеф', '+7 (358) 958-79-99', '1', 'true');
 
 INSERT INTO user (version, office_id, first_name, second_name, middle_name, position, phone, citizenship_id,
                   is_identified)
-VALUES ('0', '6', 'Александр', 'Уткин', 'Валериевич', 'Администратор', '+7 (099) 966-76-66', '1', 'true');
+VALUES ('0', '6', 'Александр', 'Уткин', 'Валериевич', 'Администратор', '+7 (099) 966-76-66', '2', 'true');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '03', 'Свидетельство о рождении');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '07', 'Военный билет');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '08', 'Временное удостоверение, выданное взамен военного билета');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '10', 'Паспорт иностранного гражданина');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '11', 'Свидетельство о рассмотрении ходатайства о признании лица');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '12', 'Вид на жительство в Российской Федерации');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '13', 'Удостоверение беженца');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '15', 'Разрешение на временное проживание в Российской Федерации');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '18', 'Свидетельство о предоставлении временного убежища на территории');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '21', 'Паспорт гражданина Российской Федерации');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '24', 'Удостоверение личности военнослужащего Российской Федерации');
 
-INSERT INTO doc_type (version, doc_code, name)
+INSERT INTO doc_type (version, code, name)
 VALUES ('0', '91', 'Инные документы');
 
 INSERT INTO doc(version, user_id, id_code_type, number, date)
 VALUES (0, '1', '10', '0308458156', '2018-07-30');
 INSERT INTO doc(version, user_id, id_code_type, number, date)
-VALUES (0, '1', '10', '0308458156', '2010-07-30');
+VALUES (0, '2', '10', '0308458156', '2010-07-30');
 INSERT INTO doc (version, user_id, id_code_type, number, date)
-VALUES (0, '1', '10', '03085478', '2015-07-30');
+VALUES (0, '3', '10', '03085478', '2015-07-30');
 INSERT INTO doc (version, user_id, id_code_type, number, date)
-VALUES (0, '1', '10', '030845778', '2016-07-30');
+VALUES (0, '4', '10', '030845778', '2016-07-30');
 INSERT INTO doc (version, user_id, id_code_type, number, date)
-VALUES (0, '1', '10', '0308455556', '2017-07-30');
+VALUES (0, '5', '10', '0308455556', '2017-07-30');
 INSERT INTO doc (version, user_id, id_code_type, number, date)
-VALUES (0, '1', '10', '030845546', '2014-07-30');
+VALUES (0, '6', '10', '030845546', '2014-07-30');
 INSERT INTO doc (version, user_id, id_code_type, number, date)
-VALUES (0, '1', '10', '030877777', '2011-07-30');
+VALUES (0, '7', '10', '030877777', '2011-07-30');
 

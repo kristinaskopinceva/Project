@@ -3,10 +3,14 @@ package ru.bellintegrator.practice.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.bellintegrator.practice.service.OfficeService;
 import ru.bellintegrator.practice.view.office.OfficeView;
-import ru.bellintegrator.practice.controller.advice.exception.CustomNotFoundException;
 
 import java.util.List;
 
@@ -23,32 +27,19 @@ public class OfficeController {
 
     @Autowired
     public OfficeController(OfficeService officeService) {
-
         this.officeService = officeService;
     }
 
     @ApiOperation(value = "Получить список офисов по фильтру", httpMethod = "POST")
     @PostMapping("/list")
-    public List<OfficeView> getList(@RequestBody OfficeView officeView) throws Exception {
-        List<OfficeView> list = officeService.getList(officeView);
-        if (list.isEmpty()) {
-            throw new IllegalStateException("Офисы не найдены");
-        } else {
-            return officeService.getList(officeView);
-
-        }
+    public List<OfficeView> getList(@RequestBody OfficeView officeView) {
+        return officeService.getList(officeView);
     }
 
     @ApiOperation(value = "Получить оффисы по id", httpMethod = "GET")
-    @GetMapping("/{id:[\\d]+}")
+    @GetMapping(value = "/{id:[\\d]+}")
     public OfficeView getById(@PathVariable("id") Integer id) {
-        OfficeView officeView = officeService.getById(id);
-        if (officeView == null) {
-            throw new CustomNotFoundException("Офис с id" + id + " не найден!");
-        } else {
-            return officeView;
-
-        }
+        return officeService.getById(id);
     }
 
     @ApiOperation(value = "Обновить список оффисов", httpMethod = "POST")
@@ -58,6 +49,7 @@ public class OfficeController {
     }
 
     @ApiOperation(value = "Создать и сохранить измнения", httpMethod = "POST")
+    @PostMapping("/add")
     public void add(@RequestBody OfficeView view) {
         officeService.add(view);
     }

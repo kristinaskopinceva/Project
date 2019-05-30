@@ -32,11 +32,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional
     public List<OrganizationView> getList(OrganizationView organizationView) {
-        if (organizationView.getName() == null || organizationView.getInn() == null || organizationView.getActive() == null) {
+        if (organizationView.getName() == null) {
             throw new ServiceException("Не все обязательные параменты укзааны, список организаци не сформирован!");
         } else {
             Organization organization = new Organization(organizationView.getName(), organizationView.getInn(),
                     organizationView.getActive());
+            System.out.println(organization);
             List<Organization> list = organizationDao.getList(organization);
             if (!list.isEmpty()) {
                 return mapperFacade.mapAsList(list, OrganizationView.class);

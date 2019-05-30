@@ -34,6 +34,9 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public List<OfficeView> getList(OfficeView officeView) {
+        if (officeView.getOrgId() == null) {
+            throw new ServiceException("Не указаны обязательные параметры in!");
+        }
         Office office = new Office(organizationDao.getById(officeView.getOrgId()),
                 officeView.getName(), officeView.getPhone(),
                 officeView.getActive());
@@ -67,7 +70,9 @@ public class OfficeServiceImpl implements OfficeService {
     public void update(OfficeView officeView) {
         if (officeView.getId() != null && officeView.getName() != null && officeView.getAddress() != null &&
                 (officeDao.getById(officeView.getId()) != null)) {
-            officeDao.update(mapperFacade.map(officeView, Office.class));
+            Office office = mapperFacade.map(officeView, Office.class);
+            office.setOrganization(organizationDao.getById(officeView.getOrgId()));
+            officeDao.update(office);
         } else {
             throw new ServiceException("Указанный id не найден или не заполнены обязательные поля," +
                     " обновление не будет произведено!");
@@ -80,11 +85,12 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public void add(OfficeView officeView) {
-        if ((officeView.getOrgId() != null && officeView.getName() != null && officeView.getAddress() != null
-                && officeView.getPhone() != null && officeView.getActive() != null)) {
-            officeDao.add(mapperFacade.map(officeView, Office.class));
+        if (officeView.getOrgId() == null || organizationDao.getById(officeView.getOrgId()).getId() == null) {
+            throw new ServiceException("Обязательные параметры указаны не полностью или не верно, запись не будет создана в БД!");
         } else {
-            throw new ServiceException("Обязательные параметры указаны не полностью, запись не будет создана в БД!");
+            Office office = mapperFacade.map(officeView, Office.class);
+            office.setOrganization(organizationDao.getById(officeView.getOrgId()));
+            officeDao.add(office);
         }
     }
 }

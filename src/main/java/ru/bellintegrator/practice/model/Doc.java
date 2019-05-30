@@ -24,8 +24,6 @@ public class Doc {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @Column(name = "name", length = 100)
-    private String name;
     @ManyToOne
     @JoinColumn(name = "id_code_type")
     private DocType docType;
@@ -55,14 +53,6 @@ public class Doc {
 
     public void setDocType(DocType docType) {
         this.docType = docType;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public User getUser() {

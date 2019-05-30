@@ -2,7 +2,6 @@ package ru.bellintegrator.practice.dao.office;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.exception.DaoException;
 import ru.bellintegrator.practice.model.Office;
 
 import javax.persistence.EntityManager;
@@ -30,17 +29,16 @@ public class OfficeDaoImpl implements OfficeDao {
      */
     @Override
     public List<Office> getList(Office office) {
-        CriteriaBuilder builder = em.getCriteriaBuilder(); // строить объеты запросов
-        CriteriaQuery<Office> criteriaQuery = builder.createQuery(Office.class); // парамтеры типа возвра данных
-        Root<Office> officeRoot = criteriaQuery.from(Office.class); //корн каталог для обхода деревва и отпра запрос в em
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Office> criteriaQuery = builder.createQuery(Office.class);
+        Root<Office> officeRoot = criteriaQuery.from(Office.class);
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(builder.equal(officeRoot.get("organization").get("id"), office.getOrganization().getId()));
-        predicates.add(builder.equal(officeRoot.get("name"), office.getName()));
-        predicates.add(builder.equal(officeRoot.get("phone"), office.getPhone()));
+        predicates.add(builder.like(officeRoot.get("name"), office.getName()));
+        predicates.add(builder.like(officeRoot.get("phone"), office.getPhone()));
         predicates.add(builder.equal(officeRoot.get("isActive"), office.getActive()));
         criteriaQuery.select(officeRoot).where(predicates.toArray(new Predicate[]{}));
         return em.createQuery(criteriaQuery).getResultList();
-
     }
 
     /**
@@ -56,27 +54,17 @@ public class OfficeDaoImpl implements OfficeDao {
      * {@inheritDoc}
      */
     @Override
-    public Office update(Office office) {
-        if (office != null) {
-            return em.merge(office);
-        } else {
-            throw new DaoException("Пустая ссылка в объекте office, обновление информации не будет произведено!");
-        }
+    public void update(Office office) {
+        em.merge(office);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Office add(Office office) {
-        if (office != null) {
-            em.persist(office);
-            return office;
-        } else {
-            throw new DaoException("Пустая ссылка в объекте office, запись не будет создана в БД!");
-        }
+    public void add(Office office) {
+        em.persist(office);
+
     }
-
-
 }
 

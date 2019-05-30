@@ -4,27 +4,26 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.bellintegrator.practice.Application;
 import ru.bellintegrator.practice.view.organization.OrganizationView;
+
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Итеграционный тест для контроллера Organization, для тестирования используется TestRestTemplate класс
  */
 @RunWith(SpringRunner.class)
-@EnableAutoConfiguration
-@SpringBootTest(classes = {Application.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrgControllerIntegrationTest {
-    static final String PATTERN_URL = "http://localhost:8080/api/organization";
+    private static final String PATTERN_URL = "/api/organization";
     @Autowired
     private TestRestTemplate testRestTemplate;
 
@@ -36,11 +35,12 @@ public class OrgControllerIntegrationTest {
         organizationView.setActive(true);
         HttpHeaders header = new HttpHeaders(); // создаем новой хедер
         header.setContentType(MediaType.APPLICATION_JSON);
+        header.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<OrganizationView> httpEntity = new HttpEntity<>(organizationView, header); // собираем HTTP запрос
-        ResponseEntity<OrganizationView> responseEntity = testRestTemplate.exchange(PATTERN_URL + "/list", HttpMethod.POST, httpEntity,
-                new ParameterizedTypeReference<OrganizationView>() {
-                });
-        Assert.assertEquals(1,(int )responseEntity.getBody().getId());
+        ResponseEntity<String> responseEntity = testRestTemplate.postForEntity(PATTERN_URL + "/list", httpEntity, String.class);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.OK));
+        Assert.assertTrue(responseEntity.getBody().contains("Краснодар, ул. Солнечная, 15/5"));
     }
 
     @Test
@@ -50,33 +50,30 @@ public class OrgControllerIntegrationTest {
         organizationView.setActive(false);
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
+        header.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<OrganizationView> httpEntity = new HttpEntity<>(organizationView, header);
-        ResponseEntity<String> responseEntity = testRestTemplate.exchange(PATTERN_URL + "/list", HttpMethod.POST, httpEntity,
-                String.class);
-        String expected = "{\"error\":\\Не все обязательные параменты укзааны, список организаций не сформирован!\\}";
-        Assert.assertEquals(expected, responseEntity.getBody());
+        ResponseEntity<String> responseEntity = testRestTemplate.postForEntity(PATTERN_URL + "/list", httpEntity, String.class);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @Test
     public void testGetOrgByIdWhenSuccess() {
-        String url = PATTERN_URL + "/1";
-        ResponseEntity<OrganizationView> responseEntity =
-                testRestTemplate.exchange(url, HttpMethod.GET, null,
-                        new ParameterizedTypeReference<OrganizationView>() {
-                        });
-        OrganizationView data = responseEntity.getBody();
-        Assert.assertNotNull(data);
-        Assert.assertEquals("ЗАО \"Тандер\"", data.getFullName());
+        ResponseEntity<String> responseEntity =
+                testRestTemplate.exchange(PATTERN_URL + "/1", HttpMethod.GET, null,
+                        String.class);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.OK));
+        Assert.assertTrue(responseEntity.getBody().contains("997350001"));
     }
 
     @Test
     public void testGetOrgByIdWhenError() {
         ResponseEntity<String> responseEntity =
                 testRestTemplate.exchange(PATTERN_URL + "/158", HttpMethod.GET, null,
-                        new ParameterizedTypeReference<String>() {
-                        });
-        String expected = "{\"error\":\"Организация с id 158 не найдена в БД!\"}";
-        Assert.assertEquals(expected, responseEntity.getBody());
+                        String.class);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @Test
@@ -94,7 +91,9 @@ public class OrgControllerIntegrationTest {
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(organizationView, header);
         ResponseEntity<String> responseEntity =
-                testRestTemplate.exchange(PATTERN_URL + "/update", HttpMethod.POST, httpEntity, String.class);
+                testRestTemplate.postForEntity(PATTERN_URL + "/update", httpEntity, String.class);
+        Assert.assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.OK));
+        Assert.assertNotNull(responseEntity);
         Assert.assertTrue("success", responseEntity.getBody().contains("success"));
     }
 
@@ -113,9 +112,9 @@ public class OrgControllerIntegrationTest {
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(organizationView, header);
         ResponseEntity<String> responseEntity =
-                testRestTemplate.exchange(PATTERN_URL + "/update", HttpMethod.POST, httpEntity, String.class);
-        String expected = "{\"error\":Указанный id: 18 не найден или не заполнены обязательные поля, обновление не будет произведено!}";
-        Assert.assertEquals(expected, responseEntity.getBody());
+                testRestTemplate.postForEntity(PATTERN_URL + "/update", httpEntity, String.class);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @Test
@@ -132,9 +131,10 @@ public class OrgControllerIntegrationTest {
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(organizationView, header);
         ResponseEntity<String> responseEntity
-                = testRestTemplate.exchange(PATTERN_URL + "/add", HttpMethod.POST, httpEntity, String.class);
+                = testRestTemplate.postForEntity(PATTERN_URL + "/add", httpEntity, String.class);
+        Assert.assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.OK));
+        Assert.assertNotNull(responseEntity);
         Assert.assertTrue("success", responseEntity.getBody().contains("success"));
-
     }
 
     @Test
@@ -149,8 +149,9 @@ public class OrgControllerIntegrationTest {
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity httpEntity = new HttpEntity<>(organizationView, header);
         ResponseEntity<String> responseEntity
-                = testRestTemplate.exchange(PATTERN_URL + "/add", HttpMethod.POST, httpEntity, String.class);
-        String expected = "{\"error\":Обязательные параметры указаны не полностью, запись не будет создана в БД!}";
-        Assert.assertEquals(expected, responseEntity.getBody());
+                = testRestTemplate.postForEntity(PATTERN_URL + "/add", httpEntity, String.class);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
+
     }
 }

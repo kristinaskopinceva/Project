@@ -3,11 +3,11 @@ package ru.bellintegrator.practice.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.bellintegrator.practice.controller.advice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.organization.OrganizationView;
 
@@ -32,24 +32,13 @@ public class OrganizationController {
     @ApiOperation(value = "Получить список орг по фильтру", httpMethod = "POST")
     @RequestMapping(value = "/list")
     public List<OrganizationView> getOrgByFilter(@RequestBody OrganizationView organizationView) {
-        List<OrganizationView> organizationViews = organizationService.getList(organizationView);
-            if (organizationViews.isEmpty()) {
-                throw new IllegalStateException("Организации не найдены!");
-            } else {
-                return organizationViews;
-            }
-        }
-
+        return organizationService.getList(organizationView);
+    }
 
     @ApiOperation(value = "Получить огр по id", httpMethod = "GET")
-    @RequestMapping(value = "/{id:[\\d]+}\"}")
+    @GetMapping(value = "/{id:[\\d]+}")
     public OrganizationView getOrgById(@PathVariable("id") Integer id) {
-        OrganizationView organizationView = organizationService.getById(id);
-        if (organizationView == null) {
-            throw new CustomNotFoundException("Организация с id" + id + " не найдена");
-        } else {
-            return organizationView;
-        }
+        return organizationService.getById(id);
     }
 
     @ApiOperation(value = "Обновить орг", httpMethod = "POST")
@@ -59,8 +48,8 @@ public class OrganizationController {
     }
 
     @ApiOperation(value = "Добавить орг", httpMethod = "POST")
-    @RequestMapping(value = "/save")
-    public void save(@RequestBody OrganizationView view) {
+    @RequestMapping(value = "/add")
+    public void add(@RequestBody OrganizationView view) {
         organizationService.add(view);
     }
 }

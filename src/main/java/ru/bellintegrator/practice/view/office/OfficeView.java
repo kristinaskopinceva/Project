@@ -2,20 +2,12 @@ package ru.bellintegrator.practice.view.office;
 
 public class OfficeView {
     private Integer id;
-
     private String name;
-
     private Integer orgId;
-
     private String address;
-
     private String phone;
-
     private Boolean isActive;
-
-
-    public OfficeView() {
-    }
+    public OfficeView() { }
 
     public Integer getId() {
         return id;
@@ -63,6 +55,11 @@ public class OfficeView {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "{id:" + id + ";name:" + name + ";address" + address + ";phone" + phone + ";isActive" + isActive + "}";
     }
 
 }

@@ -2,10 +2,10 @@ package ru.bellintegrator.practice.dao.organization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.exception.DaoException;
 import ru.bellintegrator.practice.model.Organization;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -31,16 +31,17 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public List<Organization> getList(Organization org) {
-        CriteriaBuilder builder = em.getCriteriaBuilder(); // строить объеты запросов
-        CriteriaQuery<Organization> criteria = builder.createQuery(Organization.class); // парамтеры типа возвра данных
-        Root<Organization> organizationRoot = criteria.from(Organization.class); //корн каталог для обхода деревва и отпра запрос в em
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Organization> criteriaQuery = builder.createQuery(Organization.class);
+        Root<Organization> root = criteriaQuery.from(Organization.class);
+        criteriaQuery.select(root);
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(builder.equal(organizationRoot.get("name"), org.getName()));
-        predicates.add(builder.equal(organizationRoot.get("inn"), org.getInn()));
-        predicates.add(builder.equal(organizationRoot.get("isActive"), org.getActive()));
-        criteria.select(organizationRoot).where(predicates.toArray(new Predicate[]{}));
-        return em.createQuery(criteria).getResultList();
-
+        predicates.add(builder.equal(root.get("name"), org.getName()));
+        predicates.add(builder.like(root.get("inn"), org.getInn()));
+        predicates.add(builder.equal(root.get("isActive"), org.getActive()));
+        criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+        TypedQuery<Organization> query = em.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
     /**
@@ -57,11 +58,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization update(Organization org) {
-        if (org == null) {
-            throw new DaoException("Пустая ссылка в объекте org, обновление информации не будет произведено!");
-        } else {
-            return em.merge(org);
-        }
+        return em.merge(org);
     }
 
     /**
@@ -69,11 +66,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization add(Organization org) {
-        if (org == null) {
-            throw new DaoException("Пустая ссылка в объекте org, запись не будет создана в БД!");
-        } else {
-            em.persist(org);
-            return org;
-        }
+        return em.merge(org);
+
     }
 }

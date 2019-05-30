@@ -27,12 +27,12 @@ public interface OfficeDao {
      *
      * @param office
      */
-    public Office update(Office office);
+    public void update(Office office);
 
     /**
      * Добавить новый офис в БД
      *
      * @param
      */
-    public Office add(Office office);
+    public void add(Office office);
 }

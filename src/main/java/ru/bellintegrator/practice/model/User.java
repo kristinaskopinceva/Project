@@ -60,6 +60,15 @@ public class User {
         isIdentified = isIdentified1;
     }
 
+    public User(Office officeId, String firstName, String lastName, String middleName, String position, Country countryId,Doc doc) {
+        office = officeId;
+        this.firstName = firstName;
+        this.secondName = lastName;
+        this.middleName = middleName;
+        this.position = position;
+        country = countryId;
+        this.doc = doc;
+    }
     public User(Office officeId, String firstName, String lastName, String middleName, String position, Country countryId) {
         office = officeId;
         this.firstName = firstName;
@@ -67,6 +76,7 @@ public class User {
         this.middleName = middleName;
         this.position = position;
         country = countryId;
+
     }
 
     public Integer getId() {

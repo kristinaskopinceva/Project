@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +18,7 @@ public class Office {
     private Integer id;
     @Version
     private Integer version = 0;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "org_id")
     private Organization organization;
     @Column(nullable = false, length = 50)
@@ -48,6 +49,7 @@ public class Office {
     }
 
     public Integer getId() {
+
         return id;
     }
 

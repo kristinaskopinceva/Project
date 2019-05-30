@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.exception.DaoException;
 import ru.bellintegrator.practice.model.Doc;
+import ru.bellintegrator.practice.model.DocType;
 
 import javax.persistence.EntityManager;
 
@@ -39,6 +40,10 @@ public class DocDaoImpl implements DocDao {
             } else {
                 throw new DaoException("Невозможно сщздать информацию о докуменете сотрудника!");
             }}
+             public Doc getByDocType(DocType docType){
+            Doc doc =null;
+            doc.setDocType(docType);
+            return doc; }
         }
 
 

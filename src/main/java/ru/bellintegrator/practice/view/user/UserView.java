@@ -14,7 +14,7 @@ public class UserView {
     private String middleName;
     private String position;
     private String phone;
-    private String docCode;
+    private Integer docCode;
     private String docName;
     private String docNumber;
     private Date docDate;
@@ -73,11 +73,11 @@ public class UserView {
         this.position = position;
     }
 
-    public String getDocCode() {
+    public Integer getDocCode() {
         return docCode;
     }
 
-    public void setDocCode(String docCode) {
+    public void setDocCode(Integer docCode) {
         this.docCode = docCode;
     }
 
@@ -135,6 +135,12 @@ public class UserView {
 
     public void setIdentified(Boolean identified) {
         isIdentified = identified;
+    }
+    @Override
+    public String toString() {
+        return "{id: " + id + "; FirstName: " + firstName+ "; SecondName: " + secondName + "; MiddleName: " + middleName +
+                "; position: " + position + "; phone " + phone + "; docName " + docName + "; docNumber :" + docNumber + "; docDate :" + docDate + "; citizenshipCode "
+                + citizenshipCode + "; citizenshipName: " + citizenshipName + "; isIdentified " + isIdentified + "}";
     }
 
 

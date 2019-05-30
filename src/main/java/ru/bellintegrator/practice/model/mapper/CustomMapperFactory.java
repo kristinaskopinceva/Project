@@ -23,9 +23,10 @@ public class CustomMapperFactory implements FactoryBean<MapperFactory> {
         mapperFactory.classMap(User.class, UserView.class)
                 .field("country.code", "citizenshipCode")
                 .field("country.name", "citizenshipName")
-                .field("doc.name", "docName")
+                .field("doc.docType.name", "docName")
                 .field("doc.number", "docNumber")
                 .field("doc.date", "docDate")
+                .field("doc.docType.code", "docCode")
                 .byDefault()
                 .register();
         mapperFactory.classMap(Office.class, OfficeView.class)
