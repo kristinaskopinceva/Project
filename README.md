@@ -1,5 +1,5 @@
 ## Инструкция по запуску находится здесь:
 
-* <a href="doc/install.md">doc/install.md</a>
+* <a href="src/install.md">src/install.md</a>
 
-* [install.md](../doc/install.md)
+* [install.md](../src/install.md)
